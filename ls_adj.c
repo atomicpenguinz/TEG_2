@@ -25,7 +25,7 @@ void free_grafo(Grafo *g) {
 		free_lista(g->array[i]);
 	free(g->array);
 	g->array = NULL;
-	g->count =/* g->capacity =*/ 0;
+	g->count = 0;
 }
 
 Nodo *cria_nodo(uint novoVertice) {
