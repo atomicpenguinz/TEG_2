@@ -10,13 +10,7 @@ typedef struct nodo {
 typedef struct {
 	Nodo **array;
 	uint count;
-	// uint capacity;
 } Grafo, ListaAdjacencia;
-
-// typedef struct {
-// 	ArrayList *array;
-// 	uint tam;
-// } ListaAdjacencia;
 
 /* ls_adj.c */
 Grafo *cria_grafo(uint tam);
