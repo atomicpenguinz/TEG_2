@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define ARQUIVO "teste2.csv"
+
 typedef struct nodo {
 	int vertice;
 	struct nodo *prox;
@@ -19,6 +21,15 @@ void free_grafo(Grafo *g);
 Nodo *cria_nodo(uint novoVertice);
 void add_nodo(Grafo *g, uint novo, uint index);
 void free_nodo(Nodo *nodo);
-uint is_multigrafo(Grafo *g);
+uint *is_multigrafo(Grafo *g);
 uint grau_maximo(Grafo *g);
 uint grau_minimo(Grafo *g);
+
+/* csv.c */
+void SSV_para_CSV(char *arquivo);
+uint maior_indice(FILE *f);
+Grafo *cria_grafo_csv(char *arquivo);
+
+/* main.c */
+int main(void);
+void menu(void);

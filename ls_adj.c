@@ -67,12 +67,19 @@ static uint duplicados_lista(Nodo *head, uint vertices, uint index, uint *lacos)
 	return acc;
 }
 
-uint is_multigrafo(Grafo *g) {
+uint *is_multigrafo(Grafo *g) {
 	uint mArestas = 0;
 	uint lacos = 0;
 	for(int i = 0; i < g->count; i++)
 		mArestas += duplicados_lista(g->array[i], g->count, i, &lacos); 
-	return lacos + mArestas / 2;
+	mArestas /= 2;
+	uint *valores = malloc(3 * sizeof(uint));
+	if(valores){
+		valores[0] = lacos + mArestas;
+		valores[1] = lacos;
+		valores[2] = mArestas;
+	}
+	return valores;
 }
 
 static uint grau_vertice_aux(Nodo *head, int acc) {
