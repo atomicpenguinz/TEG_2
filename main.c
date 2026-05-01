@@ -15,6 +15,7 @@ int main() {
 	int opt = -1;
 	do {
 		menu();
+		scanf("%d", &opt);
 		switch(opt){ 
 			case 0:
 				printf("Saindo...\n");
