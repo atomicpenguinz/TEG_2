@@ -67,6 +67,45 @@ static uint duplicados_lista(Nodo *head, uint vertices, uint index, uint *lacos)
 	return acc;
 }
 
+static uint grau_vertice_aux(Nodo *head, int acc) {
+	return (head->prox == NULL) ?
+				acc :
+				grau_vertice_aux(head->prox, acc + 1);
+}
+
+static uint grau_vertice(Nodo *head) {
+	return grau_vertice_aux(head, 0);
+}
+
+static int compara_uint(const void *a, const void *b) {
+	uint arg1 = *(const int*)a;
+    uint arg2 = *(const int*)b;
+    return (arg1 > arg2) - (arg1 < arg2);
+}
+
+static uint duplicados_lista_novo(Nodo *head, uint vertices, uint index, uint *lacos) {
+	uint tam = grau_vertice(head);
+	uint *array = malloc(sizeof(uint) * tam);
+	if(!array) return 0;
+
+	Nodo *aux = head;
+	for(uint i = 0; i < tam; i++, aux = aux->prox)
+		array[i] = aux->vertice;
+	
+	qsort(array, tam, sizeof(uint), &compara_uint);
+
+	uint arestasMultiplas = 0;
+	for(int i = 0; i < tam; i++) {
+		if(array[i] == index)
+			(*lacos)++;
+		else
+		if(i + 1 < tam && array[i] == array[i+1])
+			arestasMultiplas++;
+	}
+
+	return arestasMultiplas;
+}
+
 uint *is_multigrafo(Grafo *g) {
 	uint mArestas = 0;
 	uint lacos = 0;
@@ -80,16 +119,6 @@ uint *is_multigrafo(Grafo *g) {
 		valores[2] = mArestas;
 	}
 	return valores;
-}
-
-static uint grau_vertice_aux(Nodo *head, int acc) {
-	return (head->prox == NULL) ?
-				acc :
-				grau_vertice_aux(head->prox, acc + 1);
-}
-
-static uint grau_vertice(Nodo *head) {
-	return grau_vertice_aux(head, 0);
 }
 
 uint grau_maximo(Grafo *g) {
