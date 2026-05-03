@@ -78,9 +78,9 @@ static uint grau_vertice(Nodo *head) {
 }
 
 static int compara_uint(const void *a, const void *b) {
-	uint arg1 = *(const int*)a;
-    uint arg2 = *(const int*)b;
-    return (arg1 > arg2) - (arg1 < arg2);
+	uint x = *(const int*)a;
+    uint y= *(const int*)b;
+    return (x > y) - (x < y);
 }
 
 static uint duplicados_lista_novo(Nodo *head, uint vertices, uint index, uint *lacos) {
@@ -103,6 +103,7 @@ static uint duplicados_lista_novo(Nodo *head, uint vertices, uint index, uint *l
 			arestasMultiplas++;
 	}
 
+	free(array);
 	return arestasMultiplas;
 }
 
