@@ -126,7 +126,9 @@ uint grau_maximo(Grafo *g) {
     uint maior = 0;
     for(uint i = 1; i < g->count; i++) {
         uint grau = grau_vertice(g->array[i]);
-        // if(grau >= 3) printf("vertice %u grau %u\n", i, grau); // DEBUG
+#ifdef DEBUG
+        if(grau >= 3) printf("vertice %u grau %u\n", i, grau);
+#endif
         if(maior < grau)
             maior = grau;
     }

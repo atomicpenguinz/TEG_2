@@ -18,7 +18,9 @@ uint maior_indice(FILE *f) {
         uint pretendente = a > b ? a : b;
         maior = maior > pretendente ? maior : pretendente;
     }
-    printf("Maior índice: %u\n", maior); // DEBUG
+#ifdef DEBUG
+    printf("Maior índice: %u\n", maior);
+#endif
     return maior;
 }
 
