@@ -15,6 +15,13 @@
     urlcolor=blue,
     citecolor=green,
 }
+\usepackage{titlesec}
+
+
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries}
+  {\thesubsection}{1em}{}
+  [\vspace{-0.3em}\rule{\textwidth}{0.3pt}]
 
 \begin{document}
 %\maketitle
@@ -32,13 +39,14 @@
 		\vspace{15pt}
         \vspace{95pt}
         \textbf{\LARGE{Teoria dos Grafos: Tarefa 1}}\\
+
+		\textbf{Representação Computacional de um grafo não-direcionado através de uma Lista de Adjacências}
 		%\title{{\large{Título}}}
 		\vspace{3,5cm}
 	\end{center}
 	
 	\begin{flushleft}
 		\begin{tabbing}
-			Representação Computacional de um grafo através de uma Lista de Adjacências \\ \\
 			Alunos: Heitor Linhares Caetano e Deivid Veras Lourenço \\
 			Professor: Gilmário Barbosa dos Santos \\
 	      \setlength{\labelsep}{\leftmargin}
@@ -107,30 +115,59 @@ um arquivo header, que possui as definições e protótipos usados nos outros.
 
 A seguir vai uma explicação simples sobre cada exigência:
 
-\section{Grau mínimo e máximo}
-\vspace{-0.3cm}
-\rule{\textwidth}{0.4pt}
-\vspace{0.3cm}
+\subsection{Leitura do CSV}
+Primeiramente, é importante ressaltar que o arquivo enviado não é exatamente um
+CSV, pois os valores ali estão separados por espaços, e não por vírgulas. Isso
+não é um grande problema, visto que alterar o código para suportar esse "SSV"
+seria trivial.
 
+Mesmo assim, decidimos alterar o arquivo da base de dados a fim de transformá-lo
+em um CSV. Se tratou de uma tarefa simples, necessitando apenas os seguintes comandos
+em \textit{Bash}:
 
+\begin{figure}[h]
+\centering
+	\begin{verbatim}
+	$ tr ' ' ',' < teste2.csv > tmp.csv
+	$ mv -f tmp.csv teste2.csv
+	\end{verbatim}
+	\vspace{-1.0cm}
+	\caption{O comando \textit{tr} está trocando todas as aparições do caractere
+	espaço por uma vírgula.}
+\end{figure}
+
+Antes de começarmos a ler os valores, precisamos determinar o tamanho do vetor
+estático que abrigará as adjacências. Para isso, foi criada uma função que corre
+por todos os números e acha o maior dentre eles. Esse número (+ 1) é então utilizado como
+tamanho do vetor, representando o maior índice existente no grafo.
+
+Um possível problema dessa implementação é a eventualidade de não existir algum
+vértice entre 1 e o maior número, o que poderia significar que ele simplesmente
+não existe, mas aqui é interpretado como um vértice de grau nulo. Em uma conversa
+com o professor, o mesmo declarou nossa solução como válida.
+
+Ao ler o arquivo, como estamos tratando de grafos não-direcionados, para cada par
+de valores \textit{a,b} precisamos adicionar um novo \textit{nó} às listas de
+adjacências de ambos os vértices. No caso em que \textit{a = b}, essa inserção é
+realizada apenas uma vez, a fim de evitar a duplicação de laços.
+
+\subsection{Grau mínimo e máximo}
+
+Aqui a implementação foi relativamente direta. Nos dois casos, todas as listas
+têm seus tamanhos contados através de um laço de repetição e o menor/maior número
+é retornado no final.
+
+\subsection{Quantidade de laços e arestas múltiplas}
+
+\subsection{Determinação de componentes conexos}
 \newpage
 
-\section{Descrição de atividades}
+\section{Sobre o ambiente de densenvolvimento e compilação}
 
 \newpage
 \section{Análise dos Resultados}
 \newpage
-\section{Trabalhos Futuros}
-\newpage
 
-\addcontentsline{toc}{section}{Bibliografia}
-\section*{Bibliografia}
-\footnotesize{
-
-\noindent AGUIRRE, L. A. Introdução à Identificação de Sistemas, Técnicas Lineares e Não lineares Aplicadas a Sistemas Reais. Belo Horizonte, Brasil, EDUFMG. 2004.\\
-
-}
-\newpage
 \addcontentsline{toc}{section}{Anexo}
 \section*{Anexo}
 \end{document}
