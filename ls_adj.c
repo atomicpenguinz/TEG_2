@@ -149,3 +149,138 @@ uint grau_minimo(Grafo *g) {
     return menor;
 }
 
+//Letra "e" add a BFS para componentes conexos
+typedef struct {
+    uint *dados;
+    uint frente;
+    uint cauda;
+    uint cap;
+} Fila;
+
+
+//estrutura de fila 
+static Fila *cria_fila(uint cap) {
+    Fila *F = malloc(sizeof(Fila));
+    if(!F) 
+     return NULL;
+
+    F->dados = malloc(cap * sizeof(uint));
+    if(!F->dados) {
+        free(F);
+        return NULL;
+    }
+
+    F->frente = 0;
+    F->cauda = 0;
+    F->cap = cap;
+
+    return F;
+}
+
+static void insere(Fila *F, uint v) {
+    F->dados[F->cauda++] = v;
+}
+
+static uint frente(Fila *F) {
+    return F->dados[F->frente];
+}
+
+static void remover(Fila *F) {
+    F->frente++;
+}
+
+static int vazia(Fila *F) {
+    return F->frente == F->cauda;
+}
+
+static void destroi_fila(Fila *F) {
+    if(!F) return;
+
+    free(F->dados);
+    free(F);
+}
+
+
+static uint BFS(Grafo *g, uint inicio, bool *visitado) {
+
+    uint *fila = malloc(g->count * sizeof(uint));
+    if(!fila) return 0;
+
+    uint frente = 0;
+    uint fim = 0;
+    uint tamanho = 0;
+
+    visitado[inicio] = true;
+    fila[fim++] = inicio;
+
+    while(frente < fim) {
+
+        uint atual = fila[frente++];
+        tamanho++;
+
+        for(Nodo *aux = g->array[atual];
+            aux != NULL;
+            aux = aux->prox) {
+
+            uint vizinho = aux->vertice;
+
+            if(!visitado[vizinho]) {
+                visitado[vizinho] = true;
+                fila[fim++] = vizinho;
+            }
+        }
+    }
+
+    free(fila);
+
+    return tamanho;
+}
+
+//aqui determina os componentes conexos usando a BFS 
+InfoComponentes *componentes_conexos(Grafo *g) {
+
+    bool *visitado = calloc(g->count, sizeof(bool));
+    if(!visitado) return NULL;
+
+    uint *tmp = malloc(g->count * sizeof(uint));
+    if(!tmp) {
+        free(visitado);
+        return NULL;
+    }
+
+    uint num = 0;
+
+    for(uint i = 1; i < g->count; i++) {
+
+        if(g->array[i] != NULL && !visitado[i]) {
+
+            tmp[num] = BFS(g, i, visitado);
+            num++;
+        }
+    }
+
+    InfoComponentes *info = malloc(sizeof(InfoComponentes));
+    if(!info) {
+        free(visitado);
+        free(tmp);
+        return NULL;
+    }
+
+    info->num_componentes = num;
+    info->tamanhos = malloc(num * sizeof(uint));
+
+    for(uint i = 0; i < num; i++)
+        info->tamanhos[i] = tmp[i];
+
+    free(visitado);
+    free(tmp);
+
+    return info;
+}
+
+void free_componentes(InfoComponentes *info) {
+
+    free(info->tamanhos);
+    free(info);
+}
+

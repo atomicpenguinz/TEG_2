@@ -14,6 +14,11 @@ typedef struct {
     uint count;
 } Grafo, ListaAdjacencia;
 
+typedef struct {
+    uint num_componentes;
+    uint *tamanhos;
+} InfoComponentes;
+
 /* ls_adj.c */
 Grafo *cria_grafo(uint tam);
 void add_vertice(Grafo *g, uint elemento);
@@ -24,6 +29,8 @@ void free_nodo(Nodo *nodo);
 uint *is_multigrafo(Grafo *g);
 uint grau_maximo(Grafo *g);
 uint grau_minimo(Grafo *g);
+InfoComponentes *componentes_conexos(Grafo *g);
+void free_componentes(InfoComponentes *info);
 
 /* csv.c */
 void SSV_para_CSV(char *arquivo);
