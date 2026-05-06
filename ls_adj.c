@@ -150,56 +150,6 @@ uint grau_minimo(Grafo *g) {
 }
 
 //Letra "e" add a BFS para componentes conexos
-typedef struct {
-    uint *dados;
-    uint frente;
-    uint cauda;
-    uint cap;
-} Fila;
-
-
-//estrutura de fila 
-static Fila *cria_fila(uint cap) {
-    Fila *F = malloc(sizeof(Fila));
-    if(!F) 
-     return NULL;
-
-    F->dados = malloc(cap * sizeof(uint));
-    if(!F->dados) {
-        free(F);
-        return NULL;
-    }
-
-    F->frente = 0;
-    F->cauda = 0;
-    F->cap = cap;
-
-    return F;
-}
-
-static void insere(Fila *F, uint v) {
-    F->dados[F->cauda++] = v;
-}
-
-static uint frente(Fila *F) {
-    return F->dados[F->frente];
-}
-
-static void remover(Fila *F) {
-    F->frente++;
-}
-
-static int vazia(Fila *F) {
-    return F->frente == F->cauda;
-}
-
-static void destroi_fila(Fila *F) {
-    if(!F) return;
-
-    free(F->dados);
-    free(F);
-}
-
 
 static uint BFS(Grafo *g, uint inicio, bool *visitado) {
 
