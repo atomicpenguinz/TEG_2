@@ -26,6 +26,7 @@ void free_grafo(Grafo *g) {
     free(g->array);
     g->array = NULL;
     g->count = 0;
+    free(g);
 }
 
 Nodo *cria_nodo(uint novoVertice) {
@@ -112,7 +113,7 @@ static uint duplicados_lista(Nodo *head, uint index, uint *lacos) {
 uint *is_multigrafo(Grafo *g) {
     uint mArestas = 0;
     uint lacos = 0;
-    for(int i = 0; i < g->count; i++)
+    for(int i = 1; i < g->count; i++)
         mArestas += duplicados_lista(g->array[i], i, &lacos);
     mArestas /= 2;
     uint *valores = malloc(3 * sizeof(uint));
@@ -125,7 +126,7 @@ uint *is_multigrafo(Grafo *g) {
 }
 
 uint grau_maximo(Grafo *g) {
-    if(g->count == 0) return 0;
+    if(g->count <= 1) return 0;
     uint maior = 0;
     for(uint i = 1; i < g->count; i++) {
         uint grau = grau_vertice(g->array[i]);
@@ -139,8 +140,8 @@ uint grau_maximo(Grafo *g) {
 }
 
 uint grau_minimo(Grafo *g) {
-    if(g->count == 0) return 0;
-    uint menor = 0;
+    if(g->count <= 1) return 0;
+    uint menor = UINT_MAX; // !
     for(uint i = 1; i < g->count; i++) {
         uint grau = grau_vertice(g->array[i]);
         if(menor > grau)
@@ -151,12 +152,13 @@ uint grau_minimo(Grafo *g) {
 
 //Letra "e" add a busca_largura para componentes conexos
 
-static uint busca_profundidade(Grafo *g, uint raiz, bool* visitados, uint acc /* = 1 */) {
+static uint busca_profundidade(Grafo *g, uint raiz, bool* visitados) {
     visitados[raiz] = 1;
     Nodo *aux = g->array[raiz];
+    uint acc = 1;
     while(aux) {
         if(!visitados[aux->vertice])
-            acc += busca_profundidade(g, aux->vertice, visitados, 1);
+            acc += busca_profundidade(g, aux->vertice, visitados);
         aux = aux->prox;
     }
     return acc;
