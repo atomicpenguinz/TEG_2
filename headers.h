@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef unsigned int uint;
 #define ARQUIVO "teste2.csv"
 
 typedef struct nodo {

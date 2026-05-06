@@ -65,24 +65,6 @@ int main() {
                 printf("%u | %u\n", i + 1, info->tamanhos[i]);
             
 
-            if(info->num_componentes > 0) {
-
-                uint maior = info->tamanhos[0];
-                uint menor = info->tamanhos[0];
-
-                for(uint i = 1; i < info->num_componentes; i++){
-
-                    if(info->tamanhos[i] > maior)
-                        maior = info->tamanhos[i];
-
-                    if(info->tamanhos[i] < menor)
-                        menor = info->tamanhos[i];
-                }
-
-                printf("\nMaior componente: %u\n", maior);
-                printf("\nMenor componente: %u\n", menor);
-            }
-
             free_componentes(info);
 
             break;
