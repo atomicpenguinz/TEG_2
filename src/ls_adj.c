@@ -131,8 +131,8 @@ uint *is_multigrafo(Grafo *g) {
 
 uint grau_maximo(Grafo *g) {
     if(g->count <= 1) return 0;
-    uint maior = 0;
-    for(uint i = 1; i < g->count; i++) {
+    uint maior = grau_vertice(g->array[1]);
+    for(uint i = 2; i < g->count; i++) {
         uint grau = grau_vertice(g->array[i]);
 #ifdef DEBUG
         if(grau >= 3) printf("vertice %u grau %u\n", i, grau);
@@ -145,8 +145,8 @@ uint grau_maximo(Grafo *g) {
 
 uint grau_minimo(Grafo *g) {
     if(g->count <= 1) return 0;
-    uint menor = UINT_MAX; // !
-    for(uint i = 1; i < g->count; i++) {
+    uint menor = grau_vertice(g->array[1]);
+    for(uint i = 2; i < g->count; i++) {
         uint grau = grau_vertice(g->array[i]);
         if(menor > grau)
             menor = grau;
