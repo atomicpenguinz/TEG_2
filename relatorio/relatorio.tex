@@ -208,6 +208,7 @@ apenas uma vez, sendo contabilizados separadamente.
 \newpage
 
 Um grafo é dito conexo quando existe caminho entre qualquer par de seus vértices, ou seja, todo vértice está ao alcance de todos os demais. Quando isso não ocorre, o grafo é desconexo e pode ser dividido em partes menores, cada uma conexa. Essas partes são chamadas de componentes conexos.
+
 Um componente conexo é um subgrafo conexo maximal, ou seja, o maior subgrafo possível que mantém a conectividade entre seus vértices. 
 
 Para identificarmos esses componentes conexos, inicialmente usamos como ideia a busca em largura (BFS), porém durante a análise da implementação, percebemos que a busca em profundidade (DFS), utilizando recursão, tornaria o código mais simples.
@@ -263,8 +264,11 @@ e para iniciar o programa, simplesmente execute:
 \newpage
 
 A partir da execução das funcionalidades implementadas, foi possível observar diferentes propriedades estruturais relevantes do grafo construído a partir do arquivo CSV, que possui 999 vértices identificados.
+
 O grau máximo encontrado foi 3, indicando que existe pelo menos um vértice conectado diretamente a três outros vértices. Já a função de grau mínimo encontrou grau 1 como menor valor identificado.
+
 Na verificação de multigrafo, o sistema analisa a existência de laços e arestas múltiplas. Essa etapa diferencia grafos simples de estruturas mais complexas. Como não foram encontrados laços nem arestas múltiplas, o grafo foi classificado como simples.
+
 Na análise de componentes conexos, foram identificados quatro componentes, mostrando que o grafo é desconexo, ou seja, não existe um caminho único conectando todos os vértices da estrutura. Em vez de formar uma única rede totalmente conectada, o grafo está dividido em quatro subgrafos independentes.
 
 Utilizando a base de dados "teste2.csv", os componentes encontrados foram:
@@ -278,7 +282,9 @@ Componente 4: 250 vértices
 \section{Considerações Finais}
 
 Com o desenvolvimento deste trabalho, foi possível aplicar na prática conceitos fundamentais de Teoria dos Grafos, como grau de vértices, classificação entre grafo simples e multigrafo, além da identificação de componentes conexos.
+
 A implementação permitiu compreender melhor o uso de algoritmos de busca em grafos, tanto a busca em profundidade (DFS) quanto a busca em largura (BFS), sendo que a DFS se mostrou uma solução mais simples e adequada para a identificação dos componentes conexos no grafo analisado.
+
 Por meio dos resultados obtidos com o arquivo teste2.csv, foi possível verificar que a estrutura analisada é um grafo simples e desconexo, dividido em quatro componentes principais. Dessa forma, o trabalho contribuiu tanto para o entendimento teórico quanto para a aplicação prática dos algoritmos estudados na disciplina.
 
 \end{document}
