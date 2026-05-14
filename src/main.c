@@ -15,7 +15,8 @@ int main() {
     int opt = -1;
     do {
         menu();
-        scanf("%d", &opt);
+        if(scanf("%d", &opt) != 1)
+            opt = -1;
 
         switch(opt) {
         case 0:
@@ -45,6 +46,7 @@ int main() {
             break;
         }
         case 4: {
+            PRINT_BUSCA
             InfoComponentes *info = componentes_conexos(grafo);
 
             if(!info) {

@@ -88,6 +88,7 @@ static int compara_uint(const void *a, const void *b) {
 
 static uint duplicados_lista(Nodo *head, uint index, uint *lacos) {
     uint tam = grau_vertice(head);
+    if(!tam) return 0;
     uint *array = malloc(sizeof(uint) * tam);
     if(!array) return 0;
 
@@ -98,7 +99,7 @@ static uint duplicados_lista(Nodo *head, uint index, uint *lacos) {
     qsort(array, tam, sizeof(uint), &compara_uint);
 
     uint arestasMultiplas = 0;
-    for(int i = 0; i < tam; i++) {
+    for(uint i = 0; i < tam; i++) {
         if(array[i] == index)
             (*lacos)++;
         else if(i + 1 < tam && array[i] == array[i+1])
@@ -112,7 +113,7 @@ static uint duplicados_lista(Nodo *head, uint index, uint *lacos) {
 uint *is_multigrafo(Grafo *g) {
     uint mArestas = 0;
     uint lacos = 0;
-    for(int i = 1; i < g->count; i++)
+    for(uint i = 1; i < g->count; i++)
         mArestas += duplicados_lista(g->array[i], i, &lacos);
     mArestas /= 2;
 
@@ -197,7 +198,7 @@ static uint busca_largura(Grafo *g, uint inicio, bool *visitado) {
     return tamanho;
 }
 
-//aqui determina os componentes conexos usando a busca_largura ou 
+//aqui determina os componentes conexos usando DFS ou BFS
 InfoComponentes *componentes_conexos(Grafo *g) {
     bool *visitado = calloc(g->count, sizeof(bool));
     if(!visitado) return NULL;

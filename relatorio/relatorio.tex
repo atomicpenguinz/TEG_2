@@ -17,7 +17,17 @@
 }
 \usepackage{titlesec}
 \usepackage{float}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{needspace}
 
+\floatname{algorithm}{}
+% \algrenewcommand\algorithmicfor{\textbf{para cada}}
+% \algrenewcommand\algorithmicdo{\textbf{faça}}
+% \algrenewcommand\algorithmicif{\textbf{se}}
+% \algrenewcommand\algorithmicthen{\textbf{então}}
+% \algrenewcommand\algorithmicelse{\textbf{senão}}
+% \algrenewcommand\algorithmicreturn{\textbf{retorna}}
 
 \titleformat{\subsection}
   {\normalfont\normalsize\bfseries}
@@ -79,13 +89,13 @@
 \section{Objetivo do Trabalho}
 
 A atividade consistiu em implementar um grafo através da representação computacional
-\textit{Lista de Adjacências} e que é carregado a partir de uma base de dados no
+\textit{Lista de Adjacências}, carregado a partir de uma base de dados no
 formato CSV.
 
-A Lista de Adjacências é uma estrutura de dados composta por um vetor estático
-de Nós (unidade básica de uma lista encadeada). No nosso caso, cada índice do
-vetor representa um vértice diferente (v1, v2, ...), e cada lista associada a um
-índice representa as adjacências do vértice correspondente.
+A Lista de Adjacências é uma estrutura de dados composta por um vetor fixo de ponteiros
+para \textit{nós} (unidade básica de uma lista encadeada). No caso do trabalho, cada índice do
+vetor representa um vértice diferente $(v_1, v_2, \dots)$, e cada lista associada a um
+índice armazena as adjacências do vértice correspondente.
 
 \begin{figure}[h]
 \centering
@@ -101,18 +111,18 @@ Vértice & Adjacentes \\ \hline
 conectado a 2, 3 e 5.}
 \end{figure}
 
-Foram implementadas funções que fornecem o valor máximo e mínimo de um vértice,
-funções que determinam o tipo do grafo (simples ou multigrafo), além da quantidade
-de laços e/ou arestas múltiplas que ocorrem nele e, como função principal, um
-procedimento que determina quantos componentes conexos existem no grafo, bem como
-sua distribuição e seus respectivos tamanhos.
+Foram implementadas funções que fornecem os graus máximo e mínimo do grafo,
+funções responsáveis por verificar se o grafo é simples ou multigrafo, bem como
+contabilizar laços e arestas múltiplas. Como função principal, foi implementado um
+procedimento que determina quantos componentes conexos existem no grafo, além
+dos tamanhos de cada um deles.
 
 \newpage
 \section{Solução fornecida e sobre o projeto}
 
 O projeto foi administrado em um \href{https://github.com/atomicpenguinz/TEG_1}{repositório}
-do GitHub, e separado em arquivos diferentes para melhor organização do trabalho.
-Também usamos a \textit{keyword static} para funções que não são usadas fora do
+do GitHub e separado em diferentes arquivos, buscando melhor organização do código.
+Também usamos a \textit{keyword static} em funções que não precisam ser acessadas fora do
 próprio arquivo. Isso, somado ao uso de diferentes arquivos, contribui para a
 aplicação das boas práticas de modularização e encapsulamento.
 
@@ -129,8 +139,8 @@ CSV, pois os valores ali estão separados por espaços, e não por vírgulas. Is
 não é um grande problema, visto que alterar o código para suportar esse "SSV"
 seria trivial.
 
-Mesmo assim, decidimos alterar o arquivo da base de dados a fim de transformá-lo
-em um CSV. Se tratou de uma tarefa simples, necessitando apenas os seguintes comandos
+Mesmo assim, decidimos alterar o arquivo da base de dados de modo a transformá-lo
+em um CSV. Tratou-se de uma tarefa simples, necessitando apenas dos seguintes comandos
 em \textit{Bash}:
 
 \begin{figure}[h]
@@ -145,7 +155,7 @@ em \textit{Bash}:
 \end{figure}
 
 Antes de começarmos a ler os valores, precisamos determinar o tamanho do vetor
-estático que abrigará as adjacências. Para isso, foi criada uma função que corre
+fixo que abrigará as adjacências. Para isso, foi criada uma função que corre
 por todos os números e acha o maior dentre eles. Esse número (+ 1) é então utilizado como
 tamanho do vetor, representando o maior índice existente no grafo.
 
@@ -154,8 +164,14 @@ vértice entre 1 e o maior número, o que poderia significar que ele simplesment
 não existe, mas aqui é interpretado como um vértice de grau nulo. Em uma conversa
 com o professor, o mesmo declarou nossa solução como válida.
 
+Além disso, é importante notar que há um erro no arquivo CSV, onde as linhas
+499 e 500 apresentam apenas um vértice, e não um par. O modo de lidar com essa
+parte pode alterar significativamente a interpretação do grafo pelo \textit{software} e
+por nós. No nosso caso, decidimos fazer com que o código ignorasse linhas que não
+contêm exatamente 2 valores.
+
 Ao ler o arquivo, como estamos tratando de grafos não direcionados, para cada par
-de valores \textit{a,b} precisamos adicionar um novo \textit{nó} às listas de
+de valores \textit{a, b} precisamos adicionar um novo \textit{nó} às listas de
 adjacências de ambos os vértices. No caso em que \textit{a = b}, essa inserção é
 realizada apenas uma vez, a fim de evitar a duplicação de laços.
 
@@ -169,13 +185,13 @@ têm seus tamanhos contados através de um laço de repetição e o menor/maior 
 
 A existência de laços e/ou arestas múltiplas em um grafo confirma que este é um
 multigrafo. Existem várias abordagens possíveis para a contagem de valores repetidos,
-e a complexidade de cada uma foi levada em conta para a nossa escolha final.
+e a complexidade de cada uma foi considerada para a nossa escolha final.
 
 Inicialmente, a ideia foi de fazer a contagem através de um vetor de frequência.
 Nessa estratégia, para cada vértice adjacente na lista, incrementa-se a posição
 correspondente em um vetor auxiliar. Ao final da leitura, valores maiores que 1
 significam a presença de múltiplas arestas. Isso nos permite contabilizar duplicatas
-e laços de maneira linear.
+e laços de forma direta, através do vetor de frequências.
 
 Essa abordagem tem, para cada vértice, complexidade de tempo $O(g + V)$,
 onde g é o grau do vértice e V o número total de vértices do grafo. Isso porque
@@ -190,14 +206,14 @@ Assim, o desempenho dependia fortemente da quantidade total de vértices do graf
 e não apenas das arestas existentes.
 
 A segunda abordagem, que acabou sendo escolhida, consiste em copiar os valores da
-lista a um vetor auxiliar e, em seguida, ordená-lo. Após a ordenação, basta percorrer
+lista para um vetor auxiliar e, em seguida, ordená-lo. Após a ordenação, basta percorrer
 o vetor uma única vez verificando elementos consecutivos iguais para identificar
 arestas múltiplas.
 
 Essa implementação possui complexidade temporal $O(g \log g)$ para cada vértice.
 Mesmo sendo \textit{assintoticamente} menos eficiente do que a estratégia com vetor
 de frequência, essa solução tira a dependência do número total de vértices, sendo
-mais "bem comportada" para grafos dos mais diversos tipos.
+mais \textit{bem comportada} para grafos dos mais diversos tipos.
 
 Além disso, a complexidade espacial passa a ser $O(g)$, já que o vetor
 auxiliar possui tamanho proporcional apenas ao grau do vértice analisado. Em grafos
@@ -210,7 +226,7 @@ repetidos. Enquanto arestas múltiplas aparecem duas vezes na lista de adjacênc
 o que faz com que se exija uma divisão por dois no final, laços são armazenados
 apenas uma vez, sendo contabilizados separadamente.
 
-
+\newpage
 \subsection{Determinação de componentes conexos}
 
 Um grafo é dito conexo quando existe caminho entre qualquer par de seus vértices,
@@ -225,27 +241,33 @@ Para identificarmos esses componentes conexos, inicialmente usamos como ideia a
 busca em largura (BFS), porém durante a análise da implementação, percebemos que
 a busca em profundidade (DFS), utilizando recursão, tornaria o código mais simples.
 
-Usamos como base o pseudocódigo de DFS (busca em profundidade) presente nos slides
-das aulas de Teoria dos Grafos, elaborados pelo professor:
-\begin{verbatim}
-Função:
-DFS(G,w, M, marca) 
-         marca[v]=1 
-         print(v) // substituído pela contagem de vértices
+\Needspace{15\baselineskip}
+Usamos como base uma pequena modificação do pseudocódigo de DFS (busca em profundidade) presente nos
+\textit{slides} das aulas de Teoria dos Grafos, elaborados pelo professor:
+\vspace{-0.3cm}
+\begin{algorithm}[H]
+\caption{DFS}
+\begin{algorithmic}[1]
+\Procedure{DFS}{G, v, M, marca} 
+	\State marca[v] = 1 
+	\State acumulador = 1
 
-         para cada w adjacente a v 
- 	             se marca[w]=0 
-                         DFS(G,n,M,marca) 
-                    senão 
-                         retorna
-          retorna
-\end{verbatim}
+	\For{$w$ adjacente a $v$}
+		\If{marca[w]=0}
+			\State{acumulador += DFS(G, w, M, marca)}
+		\EndIf
+	\EndFor
+	\State \Return acumulador
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\vspace{-0.3cm}
 
 No código, o funcionamento ocorre da seguinte forma: percorrem-se todos os vértices
 do grafo e, sempre que um vértice ainda não visitado é encontrado, inicia-se uma
-nova busca a partir dele. Essa busca visita recursivamente todos os vértices que
-consegue alcançar, marcando-os como visitados e contabilizando quantos pertencem
-àquele grupo. 
+nova busca a partir dele. Essa busca visita recursivamente todos os vértices
+alcançáveis a partir do vértice inicial, marcando-os como visitados e contabilizando
+quantos pertencem àquele grupo. 
 
 Portanto, cada vez que uma nova busca precisa ser iniciada, significa que um novo
 componente conexo foi descoberto.
@@ -253,7 +275,7 @@ componente conexo foi descoberto.
 Mesmo preferindo e adotando como padrão a DFS, como a implementação da BFS já
 estava feita, decidimos fazer dela um algoritmo opcional, selecionável através
 de um argumento extra no comando de compilação (Instruções no próximo capítulo).
-A busca em largura tem a vantagem de não usar recursão, o que a faz a melhor escolha
+A busca em largura tem a vantagem de não usar recursão, o que a torna mais adequada
 para grafos grandes.
 \newpage
 
@@ -267,7 +289,7 @@ compatível, sem usar funções não portáteis, como \textit{system()}.
 
 Sobre os ambientes de desenvolvimento, Deivid usou o \href{https://code.visualstudio.com/}
 {Visual Studio Code}, enquanto Heitor usou o editor de texto \href{https://helix-editor.com}
-{Helix}. Como este não usou uma IDE completa, algumas ferramentas de linha de comando
+{Helix}. Como este não usou uma \textit{IDE} completa, algumas ferramentas de linha de comando
 foram usadas para emular funcionalidades comuns em outros ambientes, especificamente
 \href{https://invisible-island.net/cproto/cproto.html}{cproto} para a geração automática
 de protótipos e \href{https://astyle.sourceforge.net/}{astyle} como formatador de código.
@@ -275,9 +297,14 @@ de protótipos e \href{https://astyle.sourceforge.net/}{astyle} como formatador 
 Como as demais ferramentas, também foi utilizada a linha de comando para compilar
 o projeto, em que foi adotado o compilador de C do \textit{GNU (GCC)}.
 
-O comando para compilar é:
+Pelo fato de algumas funções terem sido implementadas com \textit{recursão de cauda},
+é recomendável compilar o código com nível de otimização 2 ou superior. Dessa forma,
+o compilador pode aplicar o que é chamado de \textit{tail call optimization} (TCO),
+gerando código assembly equivalente a versões iterativas dessas funções.
 
-\verb|$ gcc ls_adj.c csv.c main.c -o grafo|
+Assim, o comando para compilar em ambientes GNU/Linux é:
+
+\verb|$ gcc ls_adj.c csv.c main.c -O2 -o grafo|
 
 e para iniciar o programa, simplesmente execute:
 
@@ -286,13 +313,13 @@ e para iniciar o programa, simplesmente execute:
 Para utilizar o algoritmo de busca em largura (BFS) em vez da busca em profundidade,
 basta adicionar o argumento \verb|-DBFS| ao comando de compilação:
 
-\verb|$ gcc ls_adj.c csv.c main.c -o grafo -DBFS|
+\verb|$ gcc ls_adj.c csv.c main.c -O2 -o grafo -DBFS|
 
 \newpage
 \section{Análise dos Resultados}
 Primeiramente, podemos tentar visualizar a quantidade de componentes conexos através
-de um software dedicado a isso. Inicialmente, usamos o script escrito em python
-distribuído pelo professor:
+de um programa dedicado a isso. Inicialmente, usamos o \textit{script} escrito em
+\textit{python}, e distribuído pelo professor. Seguem os resultados:
 
 \begin{figure}[H]
 \centering
@@ -302,10 +329,10 @@ distribuído pelo professor:
 \caption{Visualização 2D do grafo.}
 \end{figure}
 
-Por meio dessas imagens, é possível concluir que o gráfico é grande demais para
+Por meio dessas imagens, é possível concluir que o grafo é grande demais para
 ser analisado a olho nu, pelo menos através da representação visual dada pelo script.
 
-Em busca de um software de visualização de grafos mais poderoso, achamos o
+Em busca de um \textit{software} de visualização de grafos mais poderoso, achamos o
 \href{https://graphviz.org}{GraphViz}, que possui algoritmos específicos para
 grandes grafos. Tomando proveito de algumas configurações do programa e usando
 o algoritmo \href{https://graphviz.org/docs/layouts/sfdp/}{sfdp}, obtivemos esse
@@ -314,13 +341,13 @@ resultado:
 \begin{figure}[H]
 \centering
 \fbox{\includegraphics[width=\textwidth]{./imagens/grafo_graphviz.png}}
-\caption{Visualização do grafo através do software Graphviz.}
+\caption{Visualização do grafo através do \textit{software} Graphviz.}
 \end{figure}
 
 A partir da imagem gerada conseguimos ter uma ideia melhor do que esperar como
 \textit{output} do nosso projeto. É possível visualizar claramente 4 componentes
-conexos, sendo que todos aparentam ser caminhos, exceto o mais à esquerda que possui
-um ciclo como subgrafo, fazendo com que, aparentemente, o maior grau do grafo total
+conexos, sendo que todos aparentam ser caminhos, exceto o mais à esquerda, que possui
+um ciclo como subgrafo. Assim, aparentemente o maior grau do grafo total
 seja 3 (seria o do vértice que faz a conexão entre o subgrafo caminho e ciclo).
 
 \subsection{Resultados obtidos}
@@ -331,7 +358,7 @@ arquivo CSV, que possui 999 vértices identificados.
 
 O grau máximo encontrado foi 3, confirmando o que tínhamos deduzido anteriormente.
 Já a função de grau mínimo encontrou 1 como sendo o menor valor, o que
-nos mostra que não há vértices isolados no grafo. Além disso, fazendo uma análise
+nos mostra não haver vértices isolados no grafo. Além disso, fazendo uma análise
 da imagem, podemos entender que os vértices de grau 1 são as extremidades dos
 subgrafos do tipo caminho.
 
@@ -341,26 +368,27 @@ Como não foram encontrados laços nem arestas múltiplas, o grafo foi classific
 como simples.
 
 Na análise de componentes conexos, foram identificados quatro componentes, também
-confirmando nossa análise prévia. Isso significa que não existe um caminho único conectando todos os
+confirmando nossa análise prévia. Isso significa que não existe um único caminho que conecta todos os
 vértices da estrutura. Também conseguimos extrair o tamanho de cada componente.
 
-Através dos resultados obtidos e com a ajuda do software \href{http://gnuplot.info}
+Através dos resultados obtidos e com a ajuda do \textit{software} \href{http://gnuplot.info}
 {gnuplot}, criamos um histograma:
 
 \begin{figure}[H]
 \centering
 \fbox{\includegraphics[width=\textwidth]{./imagens/histograma.png}}
-\caption{Histograma}
+\caption{Histograma.}
 \end{figure}
 
 Aqui é possível ver que os quatro componentes possuem praticamente o mesmo tamanho,
-com apenas um se tendo mínima diferença dos demais
+com apenas um apresentando diferença mínima dos demais. Mais especificamente, três
+dos componentes possuem exatamente 250 vértices, enquanto o outro é composto por 249.
 \newpage
 \section{Considerações Finais}
 
 Com o desenvolvimento deste trabalho, foi possível aplicar na prática conceitos
 fundamentais de Teoria dos Grafos, como grau de vértices, classificação entre grafo
- simples e multigrafo, além da identificação de componentes conexos.
+simples e multigrafo, além da identificação de componentes conexos.
 
 A implementação permitiu compreender melhor o uso de algoritmos de busca em grafos,
 tanto a busca em profundidade (DFS) quanto a busca em largura (BFS), sendo que a
