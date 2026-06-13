@@ -1,0 +1,7 @@
+\babel@toc {portuges}{}\relax 
+\contentsline {section}{\numberline {1}Objetivo do Trabalho}{1}{section.1}%
+\contentsline {section}{\numberline {2}Solução fornecida e sobre o projeto}{2}{section.2}%
+\contentsline {section}{\numberline {3}Sobre o ambiente de desenvolvimento e compilação}{3}{section.3}%
+\contentsline {section}{\numberline {4}Análise dos Resultados}{4}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Resultados obtidos}{4}{subsection.4.1}%
+\contentsline {section}{\numberline {5}Considerações Finais}{5}{section.5}%
