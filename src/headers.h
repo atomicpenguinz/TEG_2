@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef unsigned int uint; // aparentemente necessário no Windows/VSCode (?)
 
@@ -16,6 +17,7 @@ typedef unsigned int uint; // aparentemente necessário no Windows/VSCode (?)
 
 typedef struct nodo {
     uint vertice;
+    uint peso;
     struct nodo *prox;
 } Nodo;
 
@@ -33,8 +35,8 @@ typedef struct {
 Grafo *cria_grafo(uint tam);
 void add_vertice(Grafo *g, uint elemento);
 void free_grafo(Grafo *g);
-Nodo *cria_nodo(uint novoVertice);
-void add_nodo(Grafo *g, uint novo, uint index);
+Nodo *cria_nodo(uint novoVertice, uint peso);
+void add_nodo(Grafo *g, uint novo, uint index, uint peso);
 void free_nodo(Nodo *nodo);
 uint *is_multigrafo(Grafo *g);
 uint grau_maximo(Grafo *g);
