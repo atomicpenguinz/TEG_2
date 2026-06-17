@@ -44,8 +44,10 @@ uint grau_minimo(Grafo *g);
 InfoComponentes *componentes_conexos(Grafo *g);
 void free_componentes(InfoComponentes *info);
 
-/* csv.c */
-Grafo *cria_grafo_csv(char *arquivo);
+/* arquivo.c */
+uint tamanho_arquivo(FILE *f);
+Grafo *cria_grafo_txt(char *arquivo, Hash **hash);
+void escreve_DOT(Grafo *g, Hash *hash);
 
 /* main.c */
 int main(void);

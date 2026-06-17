@@ -1,5 +1,5 @@
 #include "hash.h"
-#include "headers.h"
+#include "grafo.h"
 #include <ctype.h>
 
 uint tamanho_arquivo(FILE *f) {
@@ -69,4 +69,8 @@ Grafo *cria_grafo_txt(char *arquivo, Hash **hash) {
     free(vetor);
     fclose(file);
     return g;
+}
+
+void escreve_DOT(Grafo *g, Hash *hash) {
+    // WIP
 }

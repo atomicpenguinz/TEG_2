@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "grafo.h"
 
 Grafo *cria_grafo(uint tam) {
     Grafo *novo = malloc(sizeof(Grafo));

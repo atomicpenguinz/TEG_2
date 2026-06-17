@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "grafo.h"
 
 #ifndef ARQUIVO
 #error "Arquivo não definido."
