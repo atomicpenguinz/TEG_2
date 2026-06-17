@@ -1,9 +1,9 @@
 # Checklist
 
 ## Código
-- [ ] Adaptar o código anterior a este trabalho.
-- [ ] Criar uma função capaz de entender o formato do arquivo enviado
-- [ ] Criar função que determina quando dois vértices devem possuir uma aresta compartilhada
+- [X] Adaptar o código anterior a este trabalho.
+- [X] Criar uma função capaz de entender o formato do arquivo enviado
+- [X] Criar função que determina quando dois vértices devem possuir uma aresta compartilhada
 - [ ] Implementar o algoritmo de Dijkstra
 
 ## Relatório
