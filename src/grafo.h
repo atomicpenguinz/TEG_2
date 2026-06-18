@@ -4,7 +4,6 @@
 #include <string.h>
 
 typedef unsigned int uint; // aparentemente necessário no Windows/VSCode (?)
-#define ARQUIVO "palavras.txt"
 
 #ifdef BFS
     #define busca busca_largura

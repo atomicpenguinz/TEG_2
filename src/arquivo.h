@@ -1,6 +1,7 @@
 #include "grafo.h"
 #include "hash.h"
 
+#define ARQUIVO "palavras.txt"
 /* arquivo.c */
 uint tamanho_arquivo(FILE *f);
 Grafo *cria_grafo_txt(char *arquivo, Hash **hash);
