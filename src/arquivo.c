@@ -16,7 +16,7 @@ static void tolower_string(char *str) {
         str[i] = tolower(str[i]);
 }
 
-static inline bool divergem_por_um(char *a, char *b, int tam) {
+static inline bool divergem_por_um(char *a, char *b) {
     int diff = 0;
     for(int i = 0; a[i] != '\0' || b[i] != '\0'; i++) {
         if(diff > 1)
@@ -38,6 +38,7 @@ static GrafoPalavras *cria_grafo_palavra(uint tam) {
 }
 
 static void free_grafo_palavra(GrafoPalavras *gp) {
+    if(!gp) return;
     free(gp->palavras);
     liberar_hash(gp->hash);    
     free_grafo(gp->ls_adj);
@@ -70,7 +71,6 @@ GrafoPalavras *cria_grafo_txt(char *arquivo) {
     gp->palavras = malloc(tam_arq * sizeof(*gp->palavras));
     if(!gp->palavras) {
         fclose(file);
-        free_grafo(gp->ls_adj);
         free_grafo_palavra(gp);
         return NULL;
     }
@@ -78,8 +78,7 @@ GrafoPalavras *cria_grafo_txt(char *arquivo) {
     gp->hash = criar_hash(tam_arq +1);
     if(!gp->hash) {
         fclose(file);
-        free(gp->palavras);
-        free_grafo(gp->ls_adj);
+        free_grafo_palavra(gp);
         return NULL;
     }
 
@@ -95,7 +94,7 @@ GrafoPalavras *cria_grafo_txt(char *arquivo) {
 
     for(uint i = 0; i < n; i++) { // talvez seja possível otimizar essa parte
         for(uint j = i + 1; j < n; j++) {
-            if(divergem_por_um((gp->palavras)[i], (gp->palavras)[j], TAM_PALAVRA)) {
+            if(divergem_por_um((gp->palavras)[i], (gp->palavras)[j])) {
                 add_nodo(gp->ls_adj, i, j, 1);
                 if(strcmp((gp->palavras)[i], (gp->palavras)[j]) != 0) 
                     add_nodo(gp->ls_adj, j, i, 1);
@@ -103,9 +102,32 @@ GrafoPalavras *cria_grafo_txt(char *arquivo) {
         }
     }
     fclose(file);
+    gp->tamanho = n;
     return gp;
 }
 
-void escreve_DOT(Grafo *g, Hash *hash) {
-    // WIP
+void escreve_DOT(char *arquivo, GrafoPalavras *gp) {
+    FILE *f = fopen(arquivo, "w");
+    if(!f) return;
+
+    const char *config[] = CONFIG_DOT;
+    int count = sizeof(config)/sizeof(config[0]);
+
+    fprintf(f, "// Arquivo gerado automaticamente pela função \"escreve_DOT()\"\n");
+    fprintf(f, "graph G {\n");
+    for(uint i = 0; i < count; i++)
+        fprintf(f, "\t%s\n", config[i]);
+
+    for(uint i = 0; i < gp->tamanho; i++) {
+        for(Nodo *aux = gp->ls_adj->array[i]; aux; aux = aux->prox) {
+            if(i < aux->vertice)
+                fprintf(f,
+                        "\t%s -- %s;\n",
+                        gp->palavras[i],
+                        gp->palavras[aux->vertice]);
+        }
+    }
+    fprintf(f, "}\n");
+    printf("Arquivo %s escrito\n", arquivo);
+    fclose(f);
 }

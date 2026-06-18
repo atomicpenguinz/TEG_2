@@ -3,6 +3,13 @@
 
 #define ARQUIVO "palavras.txt"
 
+#define ARQUIVO_DOT "../scripts/grafo.dot"
+#define CONFIG_DOT { \
+    "normalize=true;", \
+    "dim=9;", \
+    "beautify=true;" \
+}
+
 typedef struct {
     ListaAdjacencia *ls_adj;
     Hash *hash;
@@ -12,4 +19,4 @@ typedef struct {
 
 /* arquivo.c */
 GrafoPalavras *cria_grafo_txt(char *arquivo);
-void escreve_DOT(Grafo *g, Hash *hash);
+void escreve_DOT(char *arquivo, GrafoPalavras *gp);

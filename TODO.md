@@ -12,4 +12,4 @@
 - [ ] Mostrar os resultados e concluir
 
 ## Scripts
-- [ ] Criar script para visualizar o grafo final
+- [X] Criar script para visualizar o grafo final
