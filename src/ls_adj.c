@@ -1,4 +1,4 @@
-#include "grafo.h"
+#include "ls_adj.h"
 
 Grafo *cria_grafo(uint tam) {
     Grafo *novo = malloc(sizeof(Grafo));
@@ -104,25 +104,52 @@ uint *is_multigrafo(Grafo *g) {
 
 uint grau_maximo(Grafo *g) {
     if(g->count <= 1) return 0;
-    uint maior = grau_vertice(g->array[1]);
-    for(uint i = 2; i < g->count; i++) {
+    uint maior = grau_vertice(g->array[0]);
+    for(uint i = 1; i < g->count; i++) {
         uint grau = grau_vertice(g->array[i]);
-#ifdef DEBUG
-        if(grau >= 3) printf("vertice %u grau %u\n", i, grau);
-#endif
         if(maior < grau)
             maior = grau;
+    }
+    return maior;
+}
+VerticeEGrau *vertice_grau_maximo(Grafo *g) {
+    if(g->count <= 1) return NULL;
+    VerticeEGrau *maior = malloc(sizeof(VerticeEGrau));
+    if(!maior) return NULL;
+    maior->indice = 0;
+    maior->grau = grau_vertice(g->array[0]);
+    for(uint i = 1; i < g->count; i++) {
+        uint grau = grau_vertice(g->array[i]);
+        if(maior->grau < grau) {
+            maior->grau = grau;
+            maior->indice = i;
+        }
     }
     return maior;
 }
 
 uint grau_minimo(Grafo *g) {
     if(g->count <= 1) return 0;
-    uint menor = grau_vertice(g->array[1]);
-    for(uint i = 2; i < g->count; i++) {
+    uint menor = grau_vertice(g->array[0]);
+    for(uint i = 1; i < g->count; i++) {
         uint grau = grau_vertice(g->array[i]);
         if(menor > grau)
             menor = grau;
+    }
+    return menor;
+}
+VerticeEGrau *vertice_grau_minimo(Grafo *g) {
+    if(g->count <= 1) return NULL;
+    VerticeEGrau *menor = malloc(sizeof(VerticeEGrau));
+    if(!menor) return NULL;
+    menor->indice = 0;
+    menor->grau = grau_vertice(g->array[0]);
+    for(uint i = 1; i < g->count; i++) {
+        uint grau = grau_vertice(g->array[i]);
+        if(menor->grau > grau) {
+            menor->grau = grau;
+            menor->indice = i;
+        }
     }
     return menor;
 }
