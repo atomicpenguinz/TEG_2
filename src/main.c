@@ -5,9 +5,13 @@
 #endif
 
 int main() {
-    Hash *hash;
-    char (*vetor)[TAM_PALAVRA];
-    ListaAdjacencia *grafo = cria_grafo_txt(ARQUIVO, &hash, &vetor);
+    GrafoPalavras *grafo = cria_grafo_txt(ARQUIVO);
+    if(!grafo) {
+        printf("Erro de memória na criação do grafo.\n");
+        return -1;
+    }
+    escreve_DOT(ARQUIVO_DOT, grafo);
+    return 0;
 
     // rever toda essa parte
     if(!grafo) {
@@ -27,16 +31,16 @@ int main() {
             printf("Saindo...\n");
             break;
         case 1:
-            printf("Grau máximo: %u\n", grau_maximo(grafo));
+            printf("Grau máximo: %u\n", grau_maximo(grafo->ls_adj));
             break;
         case 2:
-            printf("Grau mínimo: %u\n", grau_minimo(grafo));
+            printf("Grau mínimo: %u\n", grau_minimo(grafo->ls_adj));
             break;
         case 3: {
-            uint *valores = is_multigrafo(grafo);
+            uint *valores = is_multigrafo(grafo->ls_adj);
             if(!valores) {
                 printf("Erro na alocação de memória.\n");
-                free_grafo(grafo);
+                free_grafo(grafo->ls_adj);
                 return -3;
             }
 
@@ -51,7 +55,7 @@ int main() {
         }
         case 4: {
             PRINT_BUSCA
-            InfoComponentes *info = componentes_conexos(grafo);
+            InfoComponentes *info = componentes_conexos(grafo->ls_adj);
 
             if(!info) {
                 printf("Erro na alocação de memória.\n");
@@ -76,14 +80,14 @@ int main() {
             break;
         }
         case 5:
-            printf("Quantidade de vértices: %u\n", grafo->count - 1);  
+            printf("Quantidade de vértices: %u\n", grafo->tamanho);  
             break;
         default:
             printf("Opção inválida.\n");
         }
     } while(opt != 0);
 
-    free_grafo(grafo);
+    free_grafo(grafo->ls_adj);
 
     return 0;
 }
