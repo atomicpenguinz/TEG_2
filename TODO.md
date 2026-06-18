@@ -5,6 +5,8 @@
 - [X] Criar uma função capaz de entender o formato do arquivo enviado
 - [X] Criar função que determina quando dois vértices devem possuir uma aresta compartilhada
 - [ ] Implementar o algoritmo de Dijkstra
+- [ ] Rever apresentação dos resultados na main()
+- [ ] Revisar e debugar
 
 ## Relatório
 - [X] Limpar o relatório
@@ -13,3 +15,4 @@
 
 ## Scripts
 - [X] Criar script para visualizar o grafo final
+- [ ] Fazer histograma dos componentes conexos
