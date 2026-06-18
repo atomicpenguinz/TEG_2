@@ -6,7 +6,8 @@
 
 int main() {
     Hash *hash;
-    ListaAdjacencia *grafo = cria_grafo_txt(ARQUIVO, &hash);
+    char (*vetor)[TAM_PALAVRA];
+    ListaAdjacencia *grafo = cria_grafo_txt(ARQUIVO, &hash, &vetor);
 
     // rever toda essa parte
     if(!grafo) {
