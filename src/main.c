@@ -1,11 +1,14 @@
-#include "grafo.h"
+#include "arquivo.h"
 
 #ifndef ARQUIVO
 #error "Arquivo não definido."
 #endif
 
 int main() {
-    ListaAdjacencia *grafo = cria_grafo_csv(ARQUIVO);
+    Hash *hash;
+    ListaAdjacencia *grafo = cria_grafo_txt(ARQUIVO, &hash);
+
+    // rever toda essa parte
     if(!grafo) {
         printf("Saindo...\n");
         return -2;
