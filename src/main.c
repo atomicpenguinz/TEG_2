@@ -1,5 +1,10 @@
 #include "arquivo.h"
+#include "vendor/fort.h"
 
+void menu();
+int informacoes_gerais(GrafoPalavras *grafo);
+void vertices_maximos(GrafoPalavras *grafo);
+void vertices_minimos(GrafoPalavras *grafo);
 #ifndef ARQUIVO
 #error "Arquivo não definido."
 #endif
@@ -7,19 +12,17 @@
 int main() {
     GrafoPalavras *grafo = cria_grafo_txt(ARQUIVO);
     if(!grafo) {
-        printf("Erro de memória na criação do grafo.\n");
+        printf("Erro na criação do grafo.\n");
         return -1;
     }
     escreve_DOT(ARQUIVO_DOT, grafo);
     return 0;
 
     // rever toda essa parte
-    if(!grafo) {
-        printf("Saindo...\n");
-        return -2;
-    }
+
     printf("Lista de Adjacências criada a partir de \"%s\"\n", ARQUIVO);
 
+    
     int opt = -1;
     do {
         menu();
@@ -31,26 +34,15 @@ int main() {
             printf("Saindo...\n");
             break;
         case 1:
-            printf("Grau máximo: %u\n", grau_maximo(grafo->ls_adj));
+            int err = informacoes_gerais(grafo);
+            if(!err) return -2;
+            
             break;
         case 2:
             printf("Grau mínimo: %u\n", grau_minimo(grafo->ls_adj));
             break;
         case 3: {
-            uint *valores = is_multigrafo(grafo->ls_adj);
-            if(!valores) {
-                printf("Erro na alocação de memória.\n");
-                free_grafo(grafo->ls_adj);
-                return -3;
-            }
 
-            if(!valores[0])
-                printf("O grafo analisado é simples.\n");
-            else
-                printf("O grafo analisado é um multigrafo.\n"
-                       "Possui %u laços e %u arestas múltiplas.\n",
-                       valores[1], valores[2]);
-            free(valores);
             break;
         }
         case 4: {
@@ -92,14 +84,63 @@ int main() {
     return 0;
 }
 
+int informacoes_gerais(GrafoPalavras *grafo) {
+    ft_table_t *table = ft_create_table();
+
+    char buffer[128];
+    uint *valores = is_multigrafo(grafo->ls_adj);
+    if(!valores) {
+        printf("Erro na alocação de memória.\n");
+        free_grafo(grafo->ls_adj);
+        return 0;
+    }
+    snprintf(buffer, sizeof(buffer), "%u", grafo->tamanho);
+    ft_write_ln(table, "Quantidade de vértices", buffer);
+    snprintf(buffer, sizeof(buffer), "%u", grau_maximo(grafo->ls_adj));
+    ft_write_ln(table, "Grau máximo", buffer);
+    snprintf(buffer, sizeof(buffer), "%u", grau_minimo(grafo->ls_adj));
+    ft_write_ln(table, "Grau mínimo", buffer);
+
+
+    if(!valores[0])
+        ft_write_ln(table, "É multigrafo?", "Não");
+    else
+        ft_write_ln(table, "É multigrafo?", "Sim");
+
+    snprintf(buffer, sizeof(buffer), "%u", valores[1]);
+    ft_write_ln(table, "Qtd. Laços", buffer);
+    snprintf(buffer, sizeof(buffer), "%u", valores[2]);
+    ft_write_ln(table, "Qtd. Arestas múltiplas", buffer);
+    free(valores);
+
+    InfoComponentes *info = componentes_conexos(grafo->ls_adj);
+
+    if(!info) {
+        printf("Erro na alocação de memória.\n");
+        return 0;
+    }
+    snprintf(buffer, sizeof(buffer), "%u", info->num_componentes);
+    ft_write_ln(table, "Qtd. Componentes conexos", buffer);
+    free_componentes(info);
+
+    printf("%s\n", ft_to_string(table));                                          
+    ft_destroy_table(table);                                                      
+
+    return 1;
+}
+
+void vertices_maximos(GrafoPalavras *grafo) {
+    
+}
 
 void menu() {
     printf("Escolha:\n"
            "0 - Sair\n"
-           "1 - Determinar grau máximo do grafo\n"
-           "2 - Determinar grau mínimo do grafo\n"
-           "3 - Determinar se o grafo é simples ou multigrafo\n"
-           "4 - Determinar quantos componentes conexos existem no grafo\n"
-           "5 - Determinar quantidade de vértices no grafo\n"
+           "1 - Informações gerais sobre o grafo\n"
+           "2 - Determinar os vértices de grau máximo do grafo\n"
+           "3 - Determinar os vértices de grau mínimo do grafo\n"
+           "4 - Mostrar componentes conexos\n"
+           "5 - Escrever arquivo .DOT\n"
+           "6 - Utilizar o algoritmo de Dijkstra\n"
           );
 }
