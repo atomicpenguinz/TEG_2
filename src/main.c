@@ -50,8 +50,10 @@ int main() {
             break;
         }
         case 5:
-            printf("Quantidade de vértices: %u\n", grafo->tamanho);  
+            escreve_DOT(ARQUIVO_DOT, grafo);
             break;
+        case 6:
+            // WIP
         default:
             printf("Opção inválida.\n");
         }
