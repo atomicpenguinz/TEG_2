@@ -116,8 +116,8 @@ uint grau_maximo(ListaAdjacencia *g) {
 Vertices_e_Grau *vertices_grau_maximo(ListaAdjacencia *g) {
     if(g->count <= 1) return NULL;
     Vertices_e_Grau *maiores = malloc(sizeof(Vertices_e_Grau));
-    maiores->indices = NULL;
     if(!maiores) return NULL;
+    maiores->indices = NULL;
     maiores->grau = grau_maximo(g);
 
     maiores->qtd = 0;
@@ -148,8 +148,8 @@ uint grau_minimo(ListaAdjacencia *g) {
 Vertices_e_Grau *vertices_grau_minimo(ListaAdjacencia *g) {
     if(g->count <= 1) return NULL;
     Vertices_e_Grau *menores = malloc(sizeof(Vertices_e_Grau));
-    menores->indices = NULL;
     if(!menores) return NULL;
+    menores->indices = NULL;
     menores->grau = grau_minimo(g);
 
     menores->qtd = 0;

@@ -38,17 +38,13 @@ typedef struct {
 
 /* ls_adj.c */
 ListaAdjacencia *cria_grafo(uint tam);
-void add_vertice(ListaAdjacencia *g, uint elemento);
 void free_grafo(ListaAdjacencia *g);
 Nodo *cria_nodo(uint novoVertice, uint peso);
 void add_nodo(ListaAdjacencia *g, uint novo, uint index, uint peso);
-void free_nodo(Nodo *nodo);
 uint *is_multigrafo(ListaAdjacencia *g);
 uint grau_maximo(ListaAdjacencia *g);
+Vertices_e_Grau *vertices_grau_maximo(ListaAdjacencia *g);
 uint grau_minimo(ListaAdjacencia *g);
+Vertices_e_Grau *vertices_grau_minimo(ListaAdjacencia *g);
 InfoComponentes *componentes_conexos(ListaAdjacencia *g);
 void free_componentes(InfoComponentes *info);
-
-/* main.c */
-int main(void);
-void menu(void);
