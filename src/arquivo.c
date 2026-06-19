@@ -85,7 +85,9 @@ GrafoPalavras *cria_grafo_txt(char *arquivo) {
     uint i = 0;
     while(fgets(line, sizeof(line), file)) {
         if(sscanf(line, "%s", (gp->palavras)[i]) ==  1) {
+        #ifndef CASE_SENSITIVE
             tolower_string((gp->palavras)[i]);
+        #endif
             adicionar_hash(gp->hash, (gp->palavras)[i], i);
             i++;
         }

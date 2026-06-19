@@ -10,6 +10,10 @@
     "beautify=true;" \
 }
 
+#ifdef CASE_SENSISITIVE
+#define ARQUIVO_DOT "../scripts/case_grafo.dot"
+#endif
+
 typedef struct {
     ListaAdjacencia *ls_adj;
     Hash *hash;
