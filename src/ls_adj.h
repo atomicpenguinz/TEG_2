@@ -7,10 +7,10 @@ typedef unsigned int uint; // aparentemente necessário no Windows/VSCode (?)
 
 #ifdef BFS
     #define busca busca_largura
-    #define PRINT_BUSCA printf("Busca em largura:\n");
+    #define PRINT_BUSCA printf("Algoritmo utilizado: Busca em largura (BFS):\n");
 #else
     #define busca busca_profundidade
-    #define PRINT_BUSCA printf("Busca em profundidade:\n");
+    #define PRINT_BUSCA printf("Algoritmo utilizado: Busca em profundidade (DFS):\n");
 #endif
 
 typedef struct nodo {
