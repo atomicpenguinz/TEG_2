@@ -5,6 +5,8 @@ void menu();
 int informacoes_gerais(GrafoPalavras *grafo);
 void vertices_maximos(GrafoPalavras *grafo);
 void vertices_minimos(GrafoPalavras *grafo);
+void mostrar_componentes_conexos(GrafoPalavras *grafo);
+
 #ifndef ARQUIVO
 #error "Arquivo não definido."
 #endif
@@ -44,29 +46,7 @@ int main() {
             break;
         }
         case 4: {
-            PRINT_BUSCA
-            InfoComponentes *info = componentes_conexos(grafo->ls_adj);
-
-            if(!info) {
-                printf("Erro na alocação de memória.\n");
-                return -4;
-            }
-
-            printf("Número de componentes conexos: %u\n", info->num_componentes);
-            
-            if(info->num_componentes == 1) 
-                printf("O grafo é conexo.\n");
-            else 
-                printf("O grafo é desconexo.\n");
-
-            printf("\n Componente | Tamanho\n");
-            printf(" --------------------\n");
-
-            for(uint i = 0; i < info->num_componentes; i++) 
-                printf("      %-5u | %-8u\n", i + 1, info->tamanhos[i]);
-            
-            free_componentes(info);
-
+            mostrar_componentes_conexos(grafo);
             break;
         }
         case 5:
@@ -141,8 +121,8 @@ int informacoes_gerais(GrafoPalavras *grafo) {
     ft_write_ln(table, "Qtd. Componentes conexos", buffer);
     free_componentes(info);
 
-    printf("%s\n", ft_to_string(table));                                          
-    ft_destroy_table(table);                                                      
+    printf("%s\n", ft_to_string(table));
+    ft_destroy_table(table);
 
     return 1;
 }
@@ -180,4 +160,37 @@ void vertices_minimos(GrafoPalavras *grafo) {
             else
                 printf("%s, ", grafo->palavras[aux->vertice]);
     }
+}
+
+void mostrar_componentes_conexos(GrafoPalavras *grafo) { 
+    PRINT_BUSCA
+    ft_table_t *table = ft_create_table();
+    ft_set_border_style(table, FT_PLAIN_STYLE);
+
+    InfoComponentes *info = componentes_conexos(grafo->ls_adj);
+    if(!info) {
+        printf("Erro na alocação de memória.\n");
+        return;
+    }
+
+    printf("Número de componentes conexos: %u\n", info->num_componentes);
+   
+    if(info->num_componentes == 1) 
+        printf("O grafo é conexo.\n");
+    else 
+        printf("O grafo é desconexo.\n");
+
+    ft_write_ln(table, "Componente", "Tamanho");
+    ft_add_separator(table);
+
+    char buffer[5];
+    char buffer2[64];
+    for(uint i = 0; i < info->num_componentes; i++) {
+        snprintf(buffer, sizeof(buffer), "%u", i + 1);
+        snprintf(buffer2, sizeof(buffer2), "%u", info->tamanhos[i]);
+        ft_write_ln(table, buffer, buffer2);
+    }
+    free_componentes(info);
+    printf("%s\n", ft_to_string(table));
+    ft_destroy_table(table);
 }
