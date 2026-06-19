@@ -135,10 +135,11 @@ disponível como parâmetro em tempo de compilação. Instruções disponíveis 
 seção (\ref{comp}).
 
 \subsection{Determinação das palavras com mais e menos conexões}
-Essa parte foi mais direta. Adaptamos as funções do trabalho anterior que retornavam
-o maior e menor grau para também retornarem o índice que possui tal grau, através de um
-tipo de dado composto especializado. A partir disso, através do vetor \textit{palavras}
-que faz parte do tipo GrafoPalavras, é possível encontrar a palavra associada ao número.
+Essa parte foi mais direta. Estendemos as funções do trabalho anterior que retornavam
+o maior e menor grau em uma função que retorna também os índices de todos os vértices
+com aquele grau, através de um
+tipo de dado composto especializado. A partir disso, com o vetor \textit{palavras}
+que faz parte do tipo GrafoPalavras, é possível encontrar as palavras associadas aos números.
 
 \subsection{Quantidade de laços e arestas múltiplas}
 Aqui não foi preciso alterar a implementação, pois o código do trabalho anterior serve
@@ -148,7 +149,21 @@ no relatório anterior, disponível \href{https://github.com/atomicpenguinz/TEG_
 \subsection{Algoritmo de Dijkstra}
 % WIP
 \newpage
-\section{Sobre o ambiente de desenvolvimento e compilação}
+\section{Sobre o projeto}
+O projeto foi administrado em um \href{https://github.com/atomicpenguinz/TEG_2}{repositório}
+no GitHub. Como indicado anteriormente, ele inicialmente começou como um \textit{fork}
+do trabalho anterior, lentamente se tornando uma coisa própria.
+
+Para a organização das tarefas, criamos um arquivo TODO.md que lista o que deve ser feito
+e o que já foi realizado.
+
+\subsection{Ambiente de desenvolvimento}
+Essa é outra parte que não mudou muito. Deivid usou o sistema operacional Windows
+e o editor de código \href{https://code.visualstudio.com/}{Visual Studio Code},
+enquanto Heitor usou uma distribuição GNU/Linux e o editor de texto \href{https://helix-editor.com}
+{Helix}.
+
+\subsection{Instruções de compilação}
 \label{comp}
 
 \newpage
@@ -157,5 +172,4 @@ no relatório anterior, disponível \href{https://github.com/atomicpenguinz/TEG_
 
 \newpage
 \section{Considerações Finais}
-
 \end{document}
