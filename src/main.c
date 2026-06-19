@@ -15,9 +15,6 @@ int main() {
         printf("Erro na criação do grafo.\n");
         return -1;
     }
-    escreve_DOT(ARQUIVO_DOT, grafo);
-    return 0;
-
     // rever toda essa parte
 
     printf("Lista de Adjacências criada a partir de \"%s\"\n", ARQUIVO);
@@ -33,16 +30,17 @@ int main() {
         case 0:
             printf("Saindo...\n");
             break;
-        case 1:
+        case 1: {
             int err = informacoes_gerais(grafo);
             if(!err) return -2;
             
             break;
+        }
         case 2:
-            printf("Grau mínimo: %u\n", grau_minimo(grafo->ls_adj));
+            vertices_minimos(grafo);
             break;
         case 3: {
-
+            vertices_maximos(grafo);
             break;
         }
         case 4: {
@@ -84,24 +82,42 @@ int main() {
     return 0;
 }
 
+void menu() {
+    printf("Escolha:\n"
+           "0 - Sair\n"
+           "1 - Informações gerais sobre o grafo\n"
+           "2 - Determinar os vértices de grau mínimo do grafo\n"
+           "3 - Determinar os vértices de grau máximo do grafo\n"
+           "4 - Mostrar componentes conexos\n"
+           "5 - Escrever arquivo .DOT (para criação da imagem)\n"
+           "6 - Utilizar o algoritmo de Dijkstra\n"
+          );
+}
+
 int informacoes_gerais(GrafoPalavras *grafo) {
     ft_table_t *table = ft_create_table();
+    ft_set_border_style(table, FT_PLAIN_STYLE);
 
     char buffer[128];
     uint *valores = is_multigrafo(grafo->ls_adj);
     if(!valores) {
         printf("Erro na alocação de memória.\n");
+        ft_destroy_table(table);                                                      
         free_grafo(grafo->ls_adj);
         return 0;
     }
     snprintf(buffer, sizeof(buffer), "%u", grafo->tamanho);
     ft_write_ln(table, "Quantidade de vértices", buffer);
     snprintf(buffer, sizeof(buffer), "%u", grau_maximo(grafo->ls_adj));
+
+    ft_add_separator(table);
     ft_write_ln(table, "Grau máximo", buffer);
     snprintf(buffer, sizeof(buffer), "%u", grau_minimo(grafo->ls_adj));
     ft_write_ln(table, "Grau mínimo", buffer);
+    ft_add_separator(table);
 
 
+    ft_add_separator(table);
     if(!valores[0])
         ft_write_ln(table, "É multigrafo?", "Não");
     else
@@ -111,11 +127,13 @@ int informacoes_gerais(GrafoPalavras *grafo) {
     ft_write_ln(table, "Qtd. Laços", buffer);
     snprintf(buffer, sizeof(buffer), "%u", valores[2]);
     ft_write_ln(table, "Qtd. Arestas múltiplas", buffer);
+    ft_add_separator(table);
     free(valores);
 
     InfoComponentes *info = componentes_conexos(grafo->ls_adj);
 
     if(!info) {
+        ft_destroy_table(table);                                                      
         printf("Erro na alocação de memória.\n");
         return 0;
     }
@@ -130,17 +148,36 @@ int informacoes_gerais(GrafoPalavras *grafo) {
 }
 
 void vertices_maximos(GrafoPalavras *grafo) {
-    
+    Vertices_e_Grau *vg = vertices_grau_maximo(grafo->ls_adj);
+    if(!vg) return;
+
+    printf("Maior grau: %u\n", vg->grau);
+    if(vg->qtd == 1)
+        printf("Palavra de grau máximo:\n%s\n", grafo->palavras[vg->indices->vertice]);
+    else {
+        printf("Palavras com o grau mínimo:\n");
+        for(Nodo *aux = vg->indices; aux; aux = aux->prox)
+            if(aux->prox == NULL)
+                printf("%s\n", grafo->palavras[aux->vertice]);
+            else
+                printf("%s, ", grafo->palavras[aux->vertice]);
+    }
 }
 
-void menu() {
-    printf("Escolha:\n"
-           "0 - Sair\n"
-           "1 - Informações gerais sobre o grafo\n"
-           "2 - Determinar os vértices de grau máximo do grafo\n"
-           "3 - Determinar os vértices de grau mínimo do grafo\n"
-           "4 - Mostrar componentes conexos\n"
-           "5 - Escrever arquivo .DOT\n"
-           "6 - Utilizar o algoritmo de Dijkstra\n"
-          );
+
+void vertices_minimos(GrafoPalavras *grafo) {
+    Vertices_e_Grau *vg = vertices_grau_minimo(grafo->ls_adj);
+    if(!vg) return;
+
+    printf("Menor grau: %u\n", vg->grau);
+    if(vg->qtd == 1)
+        printf("Palavra de grau mínimo:\n%s\n", grafo->palavras[vg->indices->vertice]);
+    else {
+        printf("Palavras com o grau mínimo:\n");
+        for(Nodo *aux = vg->indices; aux; aux = aux->prox)
+            if(aux->prox == NULL)
+                printf("%s\n", grafo->palavras[aux->vertice]);
+            else
+                printf("%s, ", grafo->palavras[aux->vertice]);
+    }
 }
