@@ -1,5 +1,5 @@
 \documentclass[a4paper, 12pt]{article}
-\usepackage[portuges]{babel}
+\usepackage[brazilian]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
@@ -28,6 +28,11 @@
   {\normalfont\normalsize\bfseries}
   {\thesubsection}{1em}{}
   [\vspace{-0.3em}\rule{\textwidth}{0.3pt}]
+
+\titleformat{\subsubsection}
+  {\normalfont\small\bfseries}
+  {\thesubsubsection}{1em}{}
+  % [\vspace{-0.3em}\rule{0.75\textwidth}{0.3pt}]
 
 \begin{document}
 %\maketitle
@@ -76,12 +81,75 @@
 % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 \section{Objetivo do Trabalho}
+A atividade constitiu em implementar um grafo não direcionado ponderado onde os
+vértices são palavras de 4 letras cada, e as arestas conectam palavras que diferem
+por apenas uma letra.
 
-\newpage
-\section{Solução fornecida e sobre o projeto}
+Além disso, outros requisitos eram indicar a palavra com mais e com menos conexões
+do grafo, além de implementar o algoritmo de Dijkstra para encontrar o menor caminho
+possível entre duas palavras arbitrárias.
+% \newpage
+\section{Solução fornecida}
+Utilizamos o trabalho anterior como base para este. Isso significa que a implementação
+da representação computacional se manteve a mesma (sendo uma lista de adjacências),
+com a única mudança sendo a implementação de pesos entre as arestas.
 
+Como a distância entre as palavras é, por definição do grafo, sempre de valor um,
+os pesos das arestas também serão sempre um. Isso cria um grafo uniformemente ponderado,
+em que é possível realizar a busca de caminho mínimo através de uma busca por largura
+(BFS). Mesmo com essa informação, mantivemos a implementação com o algoritmo de
+Dijkstra para atender exatamente o que foi pedido.
+
+\subsection{Construção do grafo}
+A construção do grafo foi uma das tarefas mais trabalhosas do projeto. Como agora
+o identificador de cada vértice é uma palavra, e não um número, não é possível
+estabelecer uma relação direta e natural entre o nome do vértice e seu índice.
+
+Para resolver esse problema, decidimos criar um tipo de dado composto (\textit{struct})
+chamado GrafoPalavras. Ele tem como campos uma Lista de adjacências (implementada previamente),
+um vetor de \textit{strings} que faz a associação índice $\rightarrow$ palavra, um valor inteiro
+que representa a quantidade de palavras (vértices) em uso e, por fim, uma tabela \textit{Hash}
+que faz a associação palavra $\rightarrow$ índice.
+
+O uso de uma tabela Hash faz com que buscas
+por índices de palavras sejam de complexidade constante ($O(1)$), sendo muito mais eficientes
+do que as possíveis alternativas (como atravessar por todo o vetor, que seria $O(n)$. 
+
+\subsubsection{Determinação de arestas}
+Para determinar quando uma palavra deve ser adjacente a outra, é preciso comparar
+caractere por caractere, criando a aresta somente quando as duas divergem por apenas
+uma letra.
+
+Aqui já encontramos o primeiro dilema do projeto. A diferença entre palavras
+deve ser \textit{case-sensitive}? Ou seja, devemos tratar letras em caixa alta
+e caixa baixa como diferentes, fazendo com que a palavra IMPA não seja associada
+a palavra impo?
+
+Decidimos que não. Faz mais sentido tratarmos letras maiúsculas e minúsculas como iguais,
+pois muitas vezes a capitalização não é algo essencial da palavras, mas apenas um fator
+acidental (como a maiusculização da letra inicial da primeira palavra de um parágrafo,
+por exemplo).
+
+Mesmo assim, optamos por deixar a sensitividade à caixa alta como uma opção ao usuário,
+disponível como parâmetro em tempo de compilação. Instruções disponíveis na próxima
+seção (\ref{comp}).
+
+\subsection{Determinação das palavras com mais e menos conexões}
+Essa parte foi mais direta. Adaptamos as funções do trabalho anterior que retornavam
+o maior e menor grau para também retornarem o índice que possui tal grau, através de um
+tipo de dado composto especializado. A partir disso, através do vetor \textit{palavras}
+que faz parte do tipo GrafoPalavras, é possível encontrar a palavra associada ao número.
+
+\subsection{Quantidade de laços e arestas múltiplas}
+Aqui não foi preciso alterar a implementação, pois o código do trabalho anterior serve
+perfeitamente neste. Para mais informações sobre essa parte, veja a seção de mesmo nome
+no relatório anterior, disponível \href{https://github.com/atomicpenguinz/TEG_1/blob/main/relatorio/relatorio.pdf}{\textcolor{blue}{aqui}}.
+
+\subsection{Algoritmo de Dijkstra}
+% WIP
 \newpage
 \section{Sobre o ambiente de desenvolvimento e compilação}
+\label{comp}
 
 \newpage
 \section{Análise dos Resultados}

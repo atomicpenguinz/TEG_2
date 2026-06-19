@@ -9,9 +9,19 @@
 - [ ] Revisar e debugar
 
 ## Relatório
-- [X] Limpar o relatório
+- [X] Limpar o relatório anterior
 - [ ] Explicar as implementações
-- [ ] Mostrar os resultados e concluir
+  - [X] Construção do grafo
+  - [X] Determinação das palavras com mais e menos conexões
+  - [X] Quantidade de laços e arestas múltiplas
+  - [ ] Algoritmo de Dijkstra
+- [ ] Explicar o processo de compilação
+- [ ] Mostrar e analisar os resultados
+  - [ ] Grafo obtido
+  - [ ] Componentes conexos e palavras notórias
+  - [ ] Extra: resultados com case-sentitive ligado
+- [ ] Conclusão
+
 
 ## Scripts
 - [X] Criar script para visualizar o grafo final
