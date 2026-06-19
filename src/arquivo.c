@@ -13,10 +13,15 @@ static uint tamanho_arquivo(FILE *f) {
 
 static void tolower_string(char *str) {
     for(int i = 0; str[i] != '\0'; i++)
-        str[i] = tolower(str[i]);
+        str[i] = (char) tolower((unsigned char) str[i]);
 }
 
 static inline bool divergem_por_um(char *a, char *b) {
+    if(strlen(a) != strlen(b)) {
+        printf("%s e %s não têm o mesmo tamanho.\n", a, b);
+        return false;
+    }
+
     int diff = 0;
     for(int i = 0; a[i] != '\0' || b[i] != '\0'; i++) {
         if(diff > 1)
@@ -37,7 +42,7 @@ static GrafoPalavras *cria_grafo_palavra(uint tam) {
     return gp;
 }
 
-static void free_grafo_palavra(GrafoPalavras *gp) {
+void free_grafo_palavra(GrafoPalavras *gp) {
     if(!gp) return;
     free(gp->palavras);
     liberar_hash(gp->hash);    
@@ -59,7 +64,7 @@ GrafoPalavras *cria_grafo_txt(char *arquivo) {
         fclose(file);
         return NULL;
     }
-    gp->ls_adj = cria_grafo(tam_arq + 1);
+    gp->ls_adj = cria_grafo(tam_arq);
     if(!gp->ls_adj) {
         printf("Erro na alocação de memória.\n");
         free_grafo_palavra(gp);
@@ -75,7 +80,7 @@ GrafoPalavras *cria_grafo_txt(char *arquivo) {
         return NULL;
     }
 
-    gp->hash = criar_hash(tam_arq +1);
+    gp->hash = criar_hash(tam_arq);
     if(!gp->hash) {
         fclose(file);
         free_grafo_palavra(gp);
@@ -120,8 +125,11 @@ void escreve_DOT(char *arquivo, GrafoPalavras *gp) {
     for(uint i = 0; i < count; i++)
         fprintf(f, "\t%s\n", config[i]);
 
+    for(uint i = 0; i < gp->tamanho; i++)
+        fprintf(f, "\t%s;\n", gp->palavras[i]);
+
     for(uint i = 0; i < gp->tamanho; i++) {
-        for(Nodo *aux = gp->ls_adj->array[i]; aux; aux = aux->prox) {
+        for(Nodo *aux = gp->ls_adj->array[i]; aux != NULL; aux = aux->prox) {
             if(i < aux->vertice)
                 fprintf(f,
                         "\t%s -- %s;\n",

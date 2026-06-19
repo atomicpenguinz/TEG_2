@@ -10,7 +10,8 @@
     "beautify=true;" \
 }
 
-#ifdef CASE_SENSISITIVE
+#ifdef CASE_SENSITIVE
+#undef ARQUIVO_DOT
 #define ARQUIVO_DOT "../scripts/case_grafo.dot"
 #endif
 
