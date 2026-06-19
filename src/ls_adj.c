@@ -1,7 +1,7 @@
 #include "ls_adj.h"
 
-Grafo *cria_grafo(uint tam) {
-    Grafo *novo = malloc(sizeof(Grafo));
+ListaAdjacencia *cria_grafo(uint tam) {
+    ListaAdjacencia *novo = malloc(sizeof(ListaAdjacencia));
     if(novo == NULL) return NULL;
 
     novo->array = calloc(tam, sizeof(Nodo*)); // todos começam como NULL
@@ -21,7 +21,7 @@ static void free_lista(Nodo *head) {
     free_lista(aux);
 }
 
-void free_grafo(Grafo *g) {
+void free_grafo(ListaAdjacencia *g) {
     for(uint i = 0; i < g->count; i++)
         free_lista(g->array[i]);
     free(g->array);
@@ -38,7 +38,7 @@ Nodo *cria_nodo(uint novoVertice, uint peso) {
     return novo;
 }
 
-void add_nodo(Grafo *g, uint novo, uint index, uint peso) {
+void add_nodo(ListaAdjacencia *g, uint novo, uint index, uint peso) {
     Nodo *new = cria_nodo(novo, peso);
     if(!new) return;
 
@@ -86,7 +86,7 @@ static uint duplicados_lista(Nodo *head, uint index, uint *lacos) {
     return arestasMultiplas;
 }
 
-uint *is_multigrafo(Grafo *g) {
+uint *is_multigrafo(ListaAdjacencia *g) {
     uint mArestas = 0;
     uint lacos = 0;
     for(uint i = 0; i < g->count; i++)
@@ -102,7 +102,7 @@ uint *is_multigrafo(Grafo *g) {
     return valores;
 }
 
-uint grau_maximo(Grafo *g) {
+uint grau_maximo(ListaAdjacencia *g) {
     if(g->count <= 1) return 0;
     uint maior = grau_vertice(g->array[0]);
     for(uint i = 1; i < g->count; i++) {
@@ -112,23 +112,29 @@ uint grau_maximo(Grafo *g) {
     }
     return maior;
 }
-VerticeEGrau *vertice_grau_maximo(Grafo *g) {
+
+Vertices_e_Grau *vertices_grau_maximo(ListaAdjacencia *g) {
     if(g->count <= 1) return NULL;
-    VerticeEGrau *maior = malloc(sizeof(VerticeEGrau));
-    if(!maior) return NULL;
-    maior->indice = 0;
-    maior->grau = grau_vertice(g->array[0]);
-    for(uint i = 1; i < g->count; i++) {
-        uint grau = grau_vertice(g->array[i]);
-        if(maior->grau < grau) {
-            maior->grau = grau;
-            maior->indice = i;
+    Vertices_e_Grau *maiores = malloc(sizeof(Vertices_e_Grau));
+    maiores->indices = NULL;
+    if(!maiores) return NULL;
+    maiores->grau = grau_maximo(g);
+
+    maiores->qtd = 0;
+    for(uint i = 0; i < g->count; i++) {
+        if(grau_vertice(g->array[i]) == maiores->grau) {
+            Nodo *novo = malloc(sizeof(Nodo));
+            if(!novo) return NULL;
+            novo->vertice = i;
+            novo->prox = maiores->indices;
+            maiores->indices = novo;
+            maiores->qtd++;
         }
     }
-    return maior;
+    return maiores;
 }
 
-uint grau_minimo(Grafo *g) {
+uint grau_minimo(ListaAdjacencia *g) {
     if(g->count <= 1) return 0;
     uint menor = grau_vertice(g->array[0]);
     for(uint i = 1; i < g->count; i++) {
@@ -138,23 +144,29 @@ uint grau_minimo(Grafo *g) {
     }
     return menor;
 }
-VerticeEGrau *vertice_grau_minimo(Grafo *g) {
+
+Vertices_e_Grau *vertices_grau_minimo(ListaAdjacencia *g) {
     if(g->count <= 1) return NULL;
-    VerticeEGrau *menor = malloc(sizeof(VerticeEGrau));
-    if(!menor) return NULL;
-    menor->indice = 0;
-    menor->grau = grau_vertice(g->array[0]);
-    for(uint i = 1; i < g->count; i++) {
-        uint grau = grau_vertice(g->array[i]);
-        if(menor->grau > grau) {
-            menor->grau = grau;
-            menor->indice = i;
+    Vertices_e_Grau *menores = malloc(sizeof(Vertices_e_Grau));
+    menores->indices = NULL;
+    if(!menores) return NULL;
+    menores->grau = grau_minimo(g);
+
+    menores->qtd = 0;
+    for(uint i = 0; i < g->count; i++) {
+        if(grau_vertice(g->array[i]) == menores->grau) {
+            Nodo *novo = malloc(sizeof(Nodo));
+            if(!novo) return NULL;
+            novo->vertice = i;
+            novo->prox = menores->indices;
+            menores->indices = novo;
+            menores->qtd++;
         }
     }
-    return menor;
+    return menores;
 }
 
-static uint busca_profundidade(Grafo *g, uint raiz, bool* visitados) {
+static uint busca_profundidade(ListaAdjacencia *g, uint raiz, bool* visitados) {
     visitados[raiz] = 1;
     Nodo *aux = g->array[raiz];
     uint acc = 1;
@@ -166,7 +178,7 @@ static uint busca_profundidade(Grafo *g, uint raiz, bool* visitados) {
     return acc;
 }
 
-static uint busca_largura(Grafo *g, uint inicio, bool *visitado) {
+static uint busca_largura(ListaAdjacencia *g, uint inicio, bool *visitado) {
 
     uint *fila = malloc(g->count * sizeof(uint));
     if(!fila) return 0;
@@ -202,7 +214,7 @@ static uint busca_largura(Grafo *g, uint inicio, bool *visitado) {
 }
 
 //aqui determina os componentes conexos usando DFS ou BFS
-InfoComponentes *componentes_conexos(Grafo *g) {
+InfoComponentes *componentes_conexos(ListaAdjacencia *g) {
     bool *visitado = calloc(g->count, sizeof(bool));
     if(!visitado) return NULL;
 

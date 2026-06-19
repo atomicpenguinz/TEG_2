@@ -22,13 +22,14 @@ typedef struct nodo {
 typedef struct {
     Nodo **array;
     uint count;
-} Grafo, ListaAdjacencia;
+} ListaAdjacencia;
 
 
 typedef struct {
-    uint indice;
+    Nodo *indices;
+    uint qtd;
     uint grau;
-} VerticeEGrau;
+} Vertices_e_Grau;
 
 typedef struct {
     uint num_componentes;
@@ -36,16 +37,16 @@ typedef struct {
 } InfoComponentes;
 
 /* ls_adj.c */
-Grafo *cria_grafo(uint tam);
-void add_vertice(Grafo *g, uint elemento);
-void free_grafo(Grafo *g);
+ListaAdjacencia *cria_grafo(uint tam);
+void add_vertice(ListaAdjacencia *g, uint elemento);
+void free_grafo(ListaAdjacencia *g);
 Nodo *cria_nodo(uint novoVertice, uint peso);
-void add_nodo(Grafo *g, uint novo, uint index, uint peso);
+void add_nodo(ListaAdjacencia *g, uint novo, uint index, uint peso);
 void free_nodo(Nodo *nodo);
-uint *is_multigrafo(Grafo *g);
-uint grau_maximo(Grafo *g);
-uint grau_minimo(Grafo *g);
-InfoComponentes *componentes_conexos(Grafo *g);
+uint *is_multigrafo(ListaAdjacencia *g);
+uint grau_maximo(ListaAdjacencia *g);
+uint grau_minimo(ListaAdjacencia *g);
+InfoComponentes *componentes_conexos(ListaAdjacencia *g);
 void free_componentes(InfoComponentes *info);
 
 /* main.c */
