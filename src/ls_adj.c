@@ -178,6 +178,30 @@ static uint busca_profundidade(ListaAdjacencia *g, uint raiz, bool* visitados) {
     return acc;
 }
 
+// DFS
+static void busca_stats(ListaAdjacencia *g, uint raiz, bool *visitados, EstComponentes *comp) {
+    visitados[raiz] = 1;
+    comp->tamanho++;
+
+    uint grau = grau_vertice(g->array[raiz]);
+    if(grau > comp->grau_maior) {
+        comp->grau_maior = grau;
+        comp->vertice_maior = raiz;
+    }
+
+    if(grau < comp->grau_menor) {
+        comp->grau_menor = grau;
+        comp->vertice_menor = raiz;
+    }
+
+    Nodo *aux = g->array[raiz];
+    while(aux) {
+        if(!visitados[aux->vertice])
+            busca_stats(g, aux->vertice, visitados, comp);
+        aux = aux->prox;
+    }
+}
+
 static uint busca_largura(ListaAdjacencia *g, uint inicio, bool *visitado) {
 
     uint *fila = malloc(g->count * sizeof(uint));
@@ -264,3 +288,48 @@ void free_componentes(InfoComponentes *info) {
     free(info);
 }
 
+EstComponentes *estatisticas_componentes(ListaAdjacencia *g, uint *num_comp) {
+    bool *visitados = calloc(g->count, sizeof(bool));
+    if(!visitados) return NULL;
+
+    EstComponentes *tmp = malloc(g->count * sizeof(EstComponentes));
+    if(!tmp) {
+        free(visitados);
+        return NULL;
+    }
+
+    uint num = 0;
+    for(uint i = 0; i < g->count; i++) {
+        if(!visitados[i]) {
+            EstComponentes *comp = malloc(sizeof(EstComponentes));
+            if(!comp) {
+                free(visitados);
+                free(tmp);
+                return NULL;
+            }
+            comp->tamanho = 0;
+            comp->grau_maior = 0;
+            comp->vertice_maior = i;
+            comp->grau_menor = UINT_MAX;
+            comp->vertice_menor = i;
+            busca_stats(g, i, visitados, comp);
+            tmp[num] = *comp;
+            num++;
+            free(comp);
+        }
+    }
+    EstComponentes *ret = malloc(num * sizeof(EstComponentes));
+    if(!ret) {
+        free(tmp);
+        free(visitados);
+        return NULL;
+    }
+
+    for(uint i = 0; i < num; i++)
+        ret[i] = tmp[i];
+    
+    free(tmp);
+    free(visitados);
+    *num_comp = num;
+    return ret;
+}

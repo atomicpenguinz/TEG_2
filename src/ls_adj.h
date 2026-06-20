@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 typedef unsigned int uint; // aparentemente necessário no Windows/VSCode (?)
 
@@ -36,6 +37,15 @@ typedef struct {
     uint *tamanhos;
 } InfoComponentes;
 
+typedef struct {
+    uint tamanho;
+    uint grau_maior;
+    uint vertice_maior;
+
+    uint grau_menor;
+    uint vertice_menor;
+} EstComponentes;
+
 /* ls_adj.c */
 ListaAdjacencia *cria_grafo(uint tam);
 void free_grafo(ListaAdjacencia *g);
@@ -48,3 +58,5 @@ uint grau_minimo(ListaAdjacencia *g);
 Vertices_e_Grau *vertices_grau_minimo(ListaAdjacencia *g);
 InfoComponentes *componentes_conexos(ListaAdjacencia *g);
 void free_componentes(InfoComponentes *info);
+EstComponentes *estatisticas_componentes(ListaAdjacencia *g, uint *num_comp);
+
