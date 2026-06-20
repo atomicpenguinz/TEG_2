@@ -11,7 +11,7 @@ static uint tamanho_arquivo(FILE *f) {
     return linhas;
 }
 
-static void tolower_string(char *str) {
+void tolower_string(char *str) {
     for(int i = 0; str[i] != '\0'; i++)
         str[i] = (char) tolower((unsigned char) str[i]);
 }
