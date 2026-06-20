@@ -178,8 +178,9 @@ vértices/palavras.\\
 
 Inicialmente, a distância do vértice de origem é definida como zero, enquanto a dos
 demais vértices é inicializada com um valor numérico arbitrariamente grande, simulando
-o conceito de infinito. No código desenvolvido, optou-se por implementar um valor
-muito alto, porém é possível usar bibliotecas que tenham o conceito de infinito.
+o conceito de infinito.Para isso, foi implementada a biblioteca padrão \textit{limits.h},
+utilizando a constante \textbf{INT\_MAX} para atribuir de forma padronizada o maior valor 
+inteiro possível às distâncias iniciais desconhecidas.
 
 A cada iteração, o algoritmo seleciona o vértice não visitado com a menor distância
 acumulada e atualiza os custos de seus vértices vizinhos. Ao final da execução, o
