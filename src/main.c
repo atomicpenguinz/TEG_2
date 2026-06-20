@@ -1,5 +1,6 @@
 #include "arquivo.h"
 #include "vendor/fort.h"
+#include "dijkstra.h"
 
 void menu();
 int informacoes_gerais(GrafoPalavras *grafo);
@@ -72,6 +73,19 @@ int main() {
         case 5:
             printf("Quantidade de vértices: %u\n", grafo->tamanho);  
             break;
+        
+        case 6:{
+            char p1[5], p2[5];
+
+            printf("Digite a primeira palavra: ");
+            scanf("%s", p1);
+
+            printf("Digite a segunda palavra: ");
+            scanf("%s", p2);
+
+            dijkstra(grafo, p1, p2);
+            break;
+        }
         default:
             printf("Opção inválida.\n");
         }
