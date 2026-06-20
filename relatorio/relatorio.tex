@@ -145,6 +145,19 @@ com aquele grau, através de um
 tipo de dado composto especializado. A partir disso, com o vetor \textit{palavras}
 que faz parte do tipo GrafoPalavras, é possível encontrar as palavras associadas aos números.
 
+\subsubsection{Para cada componente conexo}
+Aqui já fica mais difícil. Nossa solução para esse caso foi de realizar uma busca
+em profundidade (DFS) durante a qual são coletadas estatísticas específicas sobre
+aquele subgrafo, como o tamanho do componente e os vértices de maior e menor grau.
+
+Para isso, durante a travessia, cada vértice visitado tem o grau comparado ao maior
+e menor até aquele momento. Ao encontrar um novo maior ou menor grau, o índice do
+vértice correspondente é atualizado em uma estrutura auxiliar.
+
+No final da busca, a estrutura tem todas as informações necessárias para a apresentação
+dos resultados. Novamente, através do vetor palavras, os índices são então convertidos
+em suas respectivas palavras.
+
 \subsection{Quantidade de laços e arestas múltiplas}
 Aqui não foi preciso alterar a implementação, pois o código do trabalho anterior serve
 perfeitamente neste. Para mais informações sobre essa parte, veja a seção de mesmo nome

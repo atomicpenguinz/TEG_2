@@ -1,0 +1,15 @@
+\babel@toc {brazilian}{}\relax 
+\contentsline {section}{\numberline {1}Objetivo do Trabalho}{1}{section.1}%
+\contentsline {section}{\numberline {2}Solução fornecida}{1}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Construção do grafo}{1}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Determinação de arestas}{2}{subsubsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.2}Determinação das palavras com mais e menos conexões}{2}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Quantidade de laços e arestas múltiplas}{2}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Algoritmo de Dijkstra}{2}{subsection.2.4}%
+\contentsline {section}{\numberline {3}Sobre o projeto}{3}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Ambiente de desenvolvimento}{3}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Bibliotecas utilizadas}{3}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Instruções de compilação}{3}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Análise dos Resultados}{5}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Resultados obtidos}{6}{subsection.4.1}%
+\contentsline {section}{\numberline {5}Considerações Finais}{8}{section.5}%

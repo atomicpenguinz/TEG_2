@@ -1,0 +1,10 @@
+graph G {
+    node [shape=point];
+
+    abel;
+    casa;
+    amor;
+
+    abel -- casa;
+    casa -- amor;
+}

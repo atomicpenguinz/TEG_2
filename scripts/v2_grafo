@@ -1,8 +1,5 @@
 // Arquivo gerado automaticamente pela função "escreve_DOT()"
 graph G {
-	overlap=false;
-	sep="+20";
-	repulsiveforce=50
 	normalize=true;
 	dim=9;
 	beautify=true;
