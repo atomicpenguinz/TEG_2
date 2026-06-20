@@ -25,3 +25,5 @@ typedef struct {
 /* arquivo.c */
 GrafoPalavras *cria_grafo_txt(char *arquivo);
 void escreve_DOT(char *arquivo, GrafoPalavras *gp);
+void tolower_string(char *str);
+void free_grafo_palavra(GrafoPalavras *gp);
