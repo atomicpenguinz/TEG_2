@@ -53,13 +53,17 @@ int main() {
             escreve_DOT(ARQUIVO_DOT, grafo);
             break;
         case 6: {
-            char p1[5], p2[5];
+            char p1[TAM_PALAVRA], p2[TAM_PALAVRA];
 
             printf("Digite a primeira palavra: ");
-            scanf("%s", p1);
+            if(scanf("%s", p1) != 1) {
+                printf("Palavra inválida.\n");
+            }
 
             printf("Digite a segunda palavra: ");
-            scanf("%s", p2);
+            if(scanf("%s", p2) != 1) {
+                printf("Palavra inválida.\n");
+            }
 
             dijkstra(grafo, p1, p2);
             break;
@@ -80,7 +84,7 @@ void menu() {
            "1 - Informações gerais sobre o grafo\n"
            "2 - Determinar os vértices de grau mínimo do grafo\n"
            "3 - Determinar os vértices de grau máximo do grafo\n"
-           "4 - Mostrar componentes conexos\n"
+           "4 - Mostrar componentes conexos e seus principais vértices\n"
            "5 - Escrever arquivo .DOT (para criação da imagem)\n"
            "6 - Utilizar o algoritmo de Dijkstra\n"
           );
@@ -177,10 +181,12 @@ void vertices_minimos(GrafoPalavras *grafo) {
 void mostrar_componentes_conexos(GrafoPalavras *grafo) { 
     PRINT_BUSCA
     ft_table_t *table = ft_create_table();
-    ft_set_border_style(table, FT_PLAIN_STYLE);
+    ft_set_border_style(table, FT_SOLID_STYLE);
 
+    uint num_comp;
     InfoComponentes *info = componentes_conexos(grafo->ls_adj);
-    if(!info) {
+    EstComponentes *stats = estatisticas_componentes(grafo->ls_adj, &num_comp);
+    if(!stats) {
         printf("Erro na alocação de memória.\n");
         return;
     }
@@ -192,17 +198,22 @@ void mostrar_componentes_conexos(GrafoPalavras *grafo) {
     else 
         printf("O grafo é desconexo.\n");
 
-    ft_write_ln(table, "Componente", "Tamanho");
+    ft_write_ln(table, "Componente", "Tamanho", "Palavra Central", "Palavra de menor grau");
     ft_add_separator(table);
 
-    char buffer[5];
+    char buffer[8];
     char buffer2[64];
+    char buffer3[TAM_PALAVRA];
+    char buffer4[TAM_PALAVRA];
     for(uint i = 0; i < info->num_componentes; i++) {
         snprintf(buffer, sizeof(buffer), "%u", i + 1);
-        snprintf(buffer2, sizeof(buffer2), "%u", info->tamanhos[i]);
-        ft_write_ln(table, buffer, buffer2);
+        snprintf(buffer2, sizeof(buffer2), "%u", stats[i].tamanho);
+        ft_write_ln(table, buffer, buffer2,
+                    grafo->palavras[stats[i].vertice_maior],
+                    grafo->palavras[stats[i].vertice_menor]);
     }
     free_componentes(info);
+    free(stats);
     printf("%s\n", ft_to_string(table));
     ft_destroy_table(table);
 }
