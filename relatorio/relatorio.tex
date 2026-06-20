@@ -206,13 +206,55 @@ gcc ./vendor/fort.c ls_adj.c hash.c arquivo.c main.c -O2 -o grafo -DCASE_SENSITI
 \end{lstlisting}
 \newpage
 \section{Análise dos Resultados}
+Antes de partir pros resultados, podemos tentar visualizar o grafo através de um
+programa dedicado a isso. Continuando o trabalho anterior, utilizamos o software
+\href{https://graphviz.org}{GraphViz} para isso:
+
+\begin{figure}[H]
+\centering
+\fbox{\includegraphics[width=0.6\textwidth]{./imagens/grafo.png}}
+\caption{Visualização do grafo através do software GraphViz.}
+\fbox{\includegraphics[width=0.6\textwidth]{./imagens/ponto.png}}
+\caption{Visualização com os vértices transformados em pontos.}
+\end{figure}
+
+Pelas imagens, é possível observar que há um grande componente conexo cercado
+por vários vértices nulos, juntamente a 2 componentes de tamanho 2
+Removendo esses pequenos componentes ao redor, podemos ter uma imagem mais clara
+do grande:
+
+\begin{figure}[H]
+\centering
+\fbox{\includegraphics[width=\textwidth]{./imagens/novo_grafo.png}}
+\caption{Visualização do maior componente conexo do grafo.}
+\end{figure}
+
+\subsection{Resultados obtidos}
 A partir da execução das funcionalidades implementadas, foi possível observar
 algumas propriedades relevantes do grafo.
 
 Considerando o caso onde a \textit{case-sensivity} está desligada, temos que
 o grau máximo é 26, sendo o da palavra "caia". Além disso, o grau mínimo é 0 (vértice nulo), 
-tendo o valor compartilhado entre 25 palavras.
-\subsection{Resultados obtidos}
+com esse valor sendo compartilhado entre 25 palavras.
+
+Na verificação de multigrafo, não foram encontrados laços nem arestas multiplas,
+com o grafo sendo classificado como simples. Isso decorre logicamente da definição
+do grafo que estamos usando: como construímos uma aresta para cada duas palavras
+que diferem em apenas um caractere, é impossível a existência tanto de laços quanto
+de arestas múltiplas.
+
+Já na análise de componentes conexos, foram identificados 28 componentes, sendo um de tamanho
+$1575$, dois de tamanho $2$ e o restante de tamanho 1 (vértices isolados/nulos). Isso confirma
+nossa análise prévia, e mostra uma enorme desigualdade no grafo.
+
+Mesmo sendo um "\textit{overkill}", também criamos um histograma para a distribuição
+de componentes conexos, usando a ajuda do software \href{http://gnuplot.info}{gnuplot}:
+
+\begin{figure}[H]
+\centering
+\fbox{\includegraphics[width=\textwidth]{./imagens/histograma.png}}
+\caption{Histograma.}
+\end{figure}
 
 \newpage
 \section{Considerações Finais}
