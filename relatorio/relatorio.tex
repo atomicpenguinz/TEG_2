@@ -117,7 +117,7 @@ que faz a associação palavra $\rightarrow$ índice.
 
 O uso de uma tabela Hash faz com que buscas
 por índices de palavras sejam de complexidade constante ($O(1)$), sendo muito mais eficientes
-do que as possíveis alternativas (como atravessar por todo o vetor, que seria $O(n)$. 
+do que as possíveis alternativas (como atravessar por todo o vetor, que seria $O(n)$). 
 
 \subsubsection{Determinação de arestas}
 Para determinar quando uma palavra deve ser adjacente a outra, é preciso comparar
@@ -130,7 +130,7 @@ e caixa baixa como diferentes, fazendo com que a palavra IMPA não seja associad
 a palavra impo?
 
 Decidimos que não. Faz mais sentido tratarmos letras maiúsculas e minúsculas como iguais,
-pois muitas vezes a capitalização não é algo essencial da palavras, mas apenas um fator
+pois muitas vezes a capitalização não é algo essencial da palavra, mas apenas um fator
 acidental (como a maiusculização da letra inicial da primeira palavra de um parágrafo,
 por exemplo).
 
@@ -171,10 +171,10 @@ Para isso, utilizamos a tabela Hash do grafo, garantindo a eficiência na busca.
 Caso alguma das palavras não esteja na base de dados, o programa informará erro e
 encerra a busca.\\
 \\O algoritmo funciona com três vetores principais:\\\\
-\textbf{-Vetor de distancias:} armazena a menor distância entre a origem até os
+\textbf{- Vetor de distâncias:} armazena a menor distância entre a origem até os
 vértices/palavras.\\
-\textbf{-Vetor de predecessores:} para a reconstrução do caminho.\\
-\textbf{-Vetor de controle de visitação:} Para indicar os vértices já processados.\\
+\textbf{- Vetor de predecessores:} para a reconstrução do caminho.\\
+\textbf{- Vetor de controle de visitação:} Para indicar os vértices já processados.\\
 
 Inicialmente, a distância do vértice de origem é definida como zero, enquanto a dos
 demais vértices é inicializada com um valor numérico arbitrariamente grande, simulando
@@ -245,7 +245,7 @@ gcc ./vendor/fort.c ls_adj.c hash.c arquivo.c main.c -O2 -o grafo -DCASE_SENSITI
 \end{lstlisting}
 \newpage
 \section{Análise dos Resultados}
-Antes de partir pros resultados, podemos tentar visualizar o grafo através de um
+Antes de partir para os resultados, podemos tentar visualizar o grafo através de um
 programa dedicado a isso. Continuando o trabalho anterior, utilizamos o software
 \href{https://graphviz.org}{GraphViz} para isso:
 
