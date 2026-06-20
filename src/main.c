@@ -1,4 +1,3 @@
-#include "arquivo.h"
 #include "vendor/fort.h"
 #include "dijkstra.h"
 
