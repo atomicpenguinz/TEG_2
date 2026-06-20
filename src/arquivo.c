@@ -45,7 +45,7 @@ static GrafoPalavras *cria_grafo_palavra(uint tam) {
 void free_grafo_palavra(GrafoPalavras *gp) {
     if(!gp) return;
     free(gp->palavras);
-    liberar_hash(gp->hash);    
+    liberar_hash(gp->hash);
     free_grafo(gp->ls_adj);
     free(gp);
 }
@@ -90,9 +90,9 @@ GrafoPalavras *cria_grafo_txt(char *arquivo) {
     uint i = 0;
     while(fgets(line, sizeof(line), file)) {
         if(sscanf(line, "%s", (gp->palavras)[i]) ==  1) {
-        #ifndef CASE_SENSITIVE
+#ifndef CASE_SENSITIVE
             tolower_string((gp->palavras)[i]);
-        #endif
+#endif
             adicionar_hash(gp->hash, (gp->palavras)[i], i);
             i++;
         }
@@ -103,7 +103,7 @@ GrafoPalavras *cria_grafo_txt(char *arquivo) {
         for(uint j = i + 1; j < n; j++) {
             if(divergem_por_um((gp->palavras)[i], (gp->palavras)[j])) {
                 add_nodo(gp->ls_adj, i, j, 1);
-                if(strcmp((gp->palavras)[i], (gp->palavras)[j]) != 0) 
+                if(strcmp((gp->palavras)[i], (gp->palavras)[j]) != 0)
                     add_nodo(gp->ls_adj, j, i, 1);
             }
         }

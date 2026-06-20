@@ -21,7 +21,6 @@ int main() {
 
     printf("Lista de Adjacências criada a partir de \"%s\"\n", ARQUIVO);
 
-    
     int opt = -1;
     do {
         menu();
@@ -35,7 +34,7 @@ int main() {
         case 1: {
             int err = informacoes_gerais(grafo);
             if(!err) return -2;
-            
+
             break;
         }
         case 2:
@@ -73,8 +72,7 @@ int main() {
         }
     } while(opt != 0);
 
-    free_grafo(grafo->ls_adj);
-
+    free_grafo_palavra(grafo);
     return 0;
 }
 
@@ -98,7 +96,7 @@ int informacoes_gerais(GrafoPalavras *grafo) {
     uint *valores = is_multigrafo(grafo->ls_adj);
     if(!valores) {
         printf("Erro na alocação de memória.\n");
-        ft_destroy_table(table);                                                      
+        ft_destroy_table(table);
         free_grafo(grafo->ls_adj);
         return 0;
     }
@@ -129,7 +127,7 @@ int informacoes_gerais(GrafoPalavras *grafo) {
     InfoComponentes *info = componentes_conexos(grafo->ls_adj);
 
     if(!info) {
-        ft_destroy_table(table);                                                      
+        ft_destroy_table(table);
         printf("Erro na alocação de memória.\n");
         return 0;
     }
@@ -178,7 +176,7 @@ void vertices_minimos(GrafoPalavras *grafo) {
     }
 }
 
-void mostrar_componentes_conexos(GrafoPalavras *grafo) { 
+void mostrar_componentes_conexos(GrafoPalavras *grafo) {
     PRINT_BUSCA
     ft_table_t *table = ft_create_table();
     ft_set_border_style(table, FT_SOLID_STYLE);
@@ -192,10 +190,10 @@ void mostrar_componentes_conexos(GrafoPalavras *grafo) {
     }
 
     printf("Número de componentes conexos: %u\n", info->num_componentes);
-   
-    if(info->num_componentes == 1) 
+
+    if(info->num_componentes == 1)
         printf("O grafo é conexo.\n");
-    else 
+    else
         printf("O grafo é desconexo.\n");
 
     ft_write_ln(table, "Componente", "Tamanho", "Palavra Central", "Palavra de menor grau");

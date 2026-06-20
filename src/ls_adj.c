@@ -220,8 +220,8 @@ static uint busca_largura(ListaAdjacencia *g, uint inicio, bool *visitado) {
         tamanho++;
 
         for(Nodo *aux = g->array[atual];
-            aux != NULL;
-            aux = aux->prox) {
+                aux != NULL;
+                aux = aux->prox) {
 
             uint vizinho = aux->vertice;
 
@@ -327,7 +327,7 @@ EstComponentes *estatisticas_componentes(ListaAdjacencia *g, uint *num_comp) {
 
     for(uint i = 0; i < num; i++)
         ret[i] = tmp[i];
-    
+
     free(tmp);
     free(visitados);
     *num_comp = num;

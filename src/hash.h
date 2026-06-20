@@ -6,19 +6,19 @@ typedef unsigned int uint;
 #define TAM_PALAVRA 5
 
 typedef struct {
-	uint indice;
-	char valor[TAM_PALAVRA];
+    uint indice;
+    char valor[TAM_PALAVRA];
 } EntradaHash;
 
 typedef struct no_hash {
-	EntradaHash *entrada;
-	struct no_hash *proximo;
+    EntradaHash *entrada;
+    struct no_hash *proximo;
 } NoHash;
 
 typedef struct {
-	uint total;
-	uint tamanho;
-	NoHash** elementos;
+    uint total;
+    uint tamanho;
+    NoHash** elementos;
 } Hash;
 
 /* hash.c */

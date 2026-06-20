@@ -26,14 +26,14 @@ static void mostra_arestas(GrafoPalavras *grafo, int *anterior, int origem, int 
 }
 
 void dijkstra(GrafoPalavras *grafo, char *p1, char *p2) {
-    #ifdef CASE_SENSITIVE
+#ifdef CASE_SENSITIVE
     tolower_string(p1);
     tolower_string(p2);
-    #endif
+#endif
     uint origem, destino;
 
     if(!buscar_hash(grafo->hash, p1, &origem) ||
-       !buscar_hash(grafo->hash, p2, &destino)) {
+            !buscar_hash(grafo->hash, p2, &destino)) {
         printf("Uma das palavras nao existe no grafo.\n");
         return;
     }
