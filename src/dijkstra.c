@@ -26,7 +26,7 @@ static void mostra_arestas(GrafoPalavras *grafo, int *anterior, int origem, int 
 }
 
 void dijkstra(GrafoPalavras *grafo, char *p1, char *p2) {
-#ifdef CASE_SENSITIVE
+#ifndef CASE_SENSITIVE
     tolower_string(p1);
     tolower_string(p2);
 #endif
