@@ -179,7 +179,7 @@ vértices/palavras.\\
 Inicialmente, a distância do vértice de origem é definida como zero, enquanto a dos
 demais vértices é inicializada com um valor numérico arbitrariamente grande, simulando
 o conceito de infinito.Para isso, foi implementada a biblioteca padrão \textit{limits.h},
-utilizando a constante \textbf{INT\_MAX} para atribuir de forma padronizada o maior valor 
+utilizando a constante INT\_MAX para atribuir de forma padronizada o maior valor 
 inteiro possível às distâncias iniciais desconhecidas.
 
 A cada iteração, o algoritmo seleciona o vértice não visitado com a menor distância
@@ -214,7 +214,7 @@ Essa é uma biblioteca relativamente pequena, que nos dá um jeito prático de c
 tabelas formatadas usando apenas texto. Ela foi aplicada apenas no arquivo main.c,
 e não teve impacto na implementação do que foi pedido em si.
 
-O código da biblioteca está hosteado em:
+O código dessa biblioteca está hosteado em:
 
 \url{https://github.com/seleznevae/libfort/}
 
@@ -222,7 +222,7 @@ O código da biblioteca está hosteado em:
 \label{comp}
 O comando para compilar em ambients GNU/Linux é: \\
 \begin{lstlisting}[breaklines=true]
-gcc ./vendor/fort.c ls_adj.c hash.c arquivo.c main.c -O2 -o grafo
+gcc ./vendor/fort.c ls_adj.c hash.c arquivo.c dijkstra.c main.c -O2 -o grafo
 \end{lstlisting}
 
 É disponibilizado um arquivo de script chamado compilar.sh que realiza essa
@@ -231,18 +231,10 @@ instrução automaticamente. Ele está localizado no diretório src/.
 Para iniciar o programa, simplesmente execute: \\
 \verb|./grafo|
 
-Para utilizar o algoritmo de busca em largura (BFS) em vez da busca em profundidade
-na determinação dos componentes conexos,
-basta adicionar o parâmetro \lstinline|-DBFS| ao comando de compilação:
-
-\begin{lstlisting}[breaklines=true]
-gcc ./vendor/fort.c ls_adj.c hash.c arquivo.c main.c -O2 -o grafo -DBFS
-\end{lstlisting}
-
-Já para tratar letras maiúsculas e minúsculas como símbolos diferentes, tornando
+Para tratar letras maiúsculas e minúsculas como símbolos diferentes, tornando
 assim o grafo \textit{case-sensitive}, adicione o parâmetro \lstinline|-DCASE_SENSITIVE|:
 \begin{lstlisting}[breaklines=true]
-gcc ./vendor/fort.c ls_adj.c hash.c arquivo.c main.c -O2 -o grafo -DCASE_SENSITIVE
+gcc ./vendor/fort.c ls_adj.c hash.c arquivo.c dijkstra.c -O2 -o grafo -DCASE_SENSITIVE
 \end{lstlisting}
 \newpage
 \section{Análise dos Resultados}
@@ -277,7 +269,7 @@ Considerando o caso onde a \textit{case-sensivity} está desligada, temos que
 o grau máximo é 26, sendo o da palavra "caia". Além disso, o grau mínimo é 0 (vértice nulo), 
 com esse valor sendo compartilhado entre 25 palavras.
 
-Na verificação de multigrafo, não foram encontrados laços nem arestas multiplas,
+Na verificação de multigrafo, não foram encontrados laços nem arestas múltiplas,
 com o grafo sendo classificado como simples. Isso decorre logicamente da definição
 do grafo que estamos usando: como construímos uma aresta para cada duas palavras
 que diferem em apenas um caractere, é impossível a existência tanto de laços quanto
@@ -302,12 +294,10 @@ O desenvolvimento deste trabalho permitiu colocar em prática o conteúdo minist
 consolidando a aplicação dos conceitos teóricos por meio da implementação do algoritmo de Dijkstra 
 para encontrar a menor sequência de transformações entre palavras.
 
-
 Do ponto de vista técnico, a eficiência do sistema foi garantida pelo uso de uma Tabela Hash, que 
 otimizou o processo de busca e validação dos vértices no grafo. Além disso, a adoção da biblioteca 
-\textit{limits.h} com a constante \textbf{INT\_MAX} conferiu maior robustez e padronização ao código
+\textit{limits.h} com a constante INT\_MAX conferiu maior robustez e padronização ao código
 no tratamento das distâncias iniciais.
-
 
 Por fim, a análise do grafo revelou um grande componente conexo central, demonstrando que a maior parte 
 do vocabulário se interconecta. O projeto como um todo atestou que a resolução eficiente de problemas em 
