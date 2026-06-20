@@ -21,8 +21,12 @@
 \usepackage{float}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{listings}
 \usepackage{needspace}
 
+\lstset{
+    basicstyle=\ttfamily\bfseries
+}
 
 \titleformat{\subsection}
   {\normalfont\normalsize\bfseries}
@@ -163,9 +167,43 @@ e o editor de código \href{https://code.visualstudio.com/}{Visual Studio Code},
 enquanto Heitor usou uma distribuição GNU/Linux e o editor de texto \href{https://helix-editor.com}
 {Helix}.
 
+\subsection{Bibliotecas utilizadas}
+Além de bibliotecas padrão do C como stdlib, stdio e string.h, utilizamos uma
+biblioteca externa chamada libfort.
+Essa é uma biblioteca relativamente pequena, que nos dá um jeito prático de criar
+tabelas formatadas usando apenas texto. Ela foi aplicada apenas no arquivo main.c,
+e não teve impacto na implementação do que foi pedido em si.
+
+O código da biblioteca está hosteado em:
+
+\url{https://github.com/seleznevae/libfort/}
+
 \subsection{Instruções de compilação}
 \label{comp}
+O comando para compilar em ambients GNU/Linux é: \\
+\begin{lstlisting}[breaklines=true]
+gcc ./vendor/fort.c ls_adj.c hash.c arquivo.c main.c -O2 -o grafo
+\end{lstlisting}
 
+É disponibilizado um arquivo de script chamado compilar.sh que realiza essa
+instrução automaticamente. Ele está localizado no diretório src/.
+
+Para iniciar o programa, simplesmente execute: \\
+\verb|./grafo|
+
+Para utilizar o algoritmo de busca em largura (BFS) em vez da busca em profundidade
+na determinação dos componentes conexos,
+basta adicionar o parâmetro \lstinline|-DBFS| ao comando de compilação:
+
+\begin{lstlisting}[breaklines=true]
+gcc ./vendor/fort.c ls_adj.c hash.c arquivo.c main.c -O2 -o grafo -DBFS
+\end{lstlisting}
+
+Já para tratar letras maiúsculas e minúsculas como símbolos diferentes, tornando
+assim o grafo \textit{case-sensitive}, adicione o parâmetro \lstinline|-DCASE_SENSITIVE|:
+\begin{lstlisting}[breaklines=true]
+gcc ./vendor/fort.c ls_adj.c hash.c arquivo.c main.c -O2 -o grafo -DCASE_SENSITIVE
+\end{lstlisting}
 \newpage
 \section{Análise dos Resultados}
 \subsection{Resultados obtidos}
