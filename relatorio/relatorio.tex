@@ -151,7 +151,18 @@ perfeitamente neste. Para mais informações sobre essa parte, veja a seção de
 no relatório anterior, disponível \href{https://github.com/atomicpenguinz/TEG_1/blob/main/relatorio/relatorio.pdf}{\textcolor{blue}{aqui}}.
 
 \subsection{Algoritmo de Dijkstra}
-% WIP
+Para atender ao requisito que solicita a busca do menor caminho entre duas palavras fornecidas pelo usuário, implementamos o algoritmo de Dijkstra. A etapa inicial consiste em localizar os vértices de origem e destino na estrutura do grafo. Para isso, utilizamos a tabela Hash do grafo, garantindo a eficiência na busca. Caso alguma das palavras não esteja na base de dados, o programa informará erro e encerra a busca.\\
+\\O algoritmo funciona com três vetores principais:\\\\
+\textbf{-Vetor de distancias:} armazena a menor distância entre a origem até os vértices/palavras.\\
+\textbf{-Vetor de predecessores:} para a reconstrução do caminho.\\
+\textbf{-Vetor de controle de visitação:} Para indicar os vértices já processados.\\
+
+Inicialmente, a distância do vértice de origem é definida como zero, enquanto a dos demais vértices é inicializada com um valor numérico arbitrariamente grande, simulando o conceito de infinito. No código desenvolvido, optou-se por implementar um valor muito alto, porém é possível usar bibliotecas que tenham o conceito de infinito.
+
+A cada iteração, o algoritmo seleciona o vértice não visitado com a menor distância acumulada e atualiza os custos de seus vértices vizinhos. Ao final da execução, o menor caminho é reconstruído de trás para frente utilizando o vetor de predecessores, permitindo a exibição tanto da sequência de palavras quanto das arestas percorridas.
+
+Como a distância entre palavras vizinhas é, por definição, sempre de valor um, o custo total retornado pelo algoritmo de Dijkstra corresponde exatamente ao número mínimo de transformações de letras necessárias para converter a palavra de origem na palavra de destino.
+
 \newpage
 \section{Sobre o projeto}
 O projeto foi administrado em um \href{https://github.com/atomicpenguinz/TEG_2}{repositório}
